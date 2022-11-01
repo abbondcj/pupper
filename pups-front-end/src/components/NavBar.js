@@ -12,9 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import { signOut } from '../utils/auth';
+import Logo from '../assets/pupper-logo.png';
 
 const pages = ['Pups', 'Activity', 'Learn'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -39,22 +40,33 @@ export default function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <Box
+            component="img"
+            sx={{
+              height: 64,
+            }}
+            alt="Your logo."
+            src={Logo}
+          />
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="/"
             sx={{
+              '&:hover': {
+                color: 'black',
+              },
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
+              color: 'white',
               letterSpacing: '.3rem',
-              color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            PUPPER
+            <Link className="nav-link" to="/">PUPPER</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -101,6 +113,9 @@ export default function ResponsiveAppBar() {
             component="a"
             href=""
             sx={{
+              '&:hover': {
+                color: 'black',
+              },
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
@@ -111,7 +126,7 @@ export default function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            PUPPER
+            <Link className="nav-link" to="/">PUPPER</Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -126,7 +141,7 @@ export default function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -147,11 +162,16 @@ export default function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">
+                  <Link className="nav-link" to="Profile">Profile</Link>
+                </Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center" onClick={() => signOut()}>
+                  <Link className="nav-link" to="/">Logout</Link>
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

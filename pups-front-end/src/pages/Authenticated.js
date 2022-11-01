@@ -5,11 +5,11 @@ import Activity from '../components/Activity';
 import Pups from '../components/Pups';
 import Home from '../components/Home';
 import Learn from '../components/Learn';
+import Profile from '../components/Profile';
 
 // import { signOut } from '../utils/auth';
 
 export default function Authenticated({ user }) {
-  console.log(user);
   return (
     <>
       <ResponsiveAppBar />
@@ -18,6 +18,7 @@ export default function Authenticated({ user }) {
         <Route path="/Pups" component={() => <Pups authenticatedUser={user} />} />
         <Route path="/Activity" component={() => <Activity authenticatedUser={user} />} />
         <Route path="/Learn" component={() => <Learn authenticatedUser={user} />} />
+        <Route path="/Profile" component={() => <Profile authenticatedUser={user} />} />
 
       </Switch>
       {/* <div className="text-center mt-5">
