@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "HNoIFd4evNBn9l3A4giGDgWdMMc8V1L5JmmlGXKY5eE=",
+  "Source": "pupper-back-end-api",
+  "BasePath": "_content/pupper-back-end-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
