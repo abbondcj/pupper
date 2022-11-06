@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using pupper_back_end_api.Repositories;
 
+var PupperApp = "_pupperApp";
 var builder = WebApplication.CreateBuilder(args);
 
 FirebaseApp.Create(new AppOptions
@@ -27,6 +28,19 @@ builder.Services
         };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: PupperApp,
+                      policy =>
+                      {
+                          policy.WithOrigins(builder.Configuration.GetValue<string>("BackendPort"),
+                                              builder.Configuration.GetValue<string>("FrontendPort"))
+                                .AllowAnyHeader()
+                                .WithMethods("GET", "POST", "PUT", "DELETE")
+                                .WithExposedHeaders("*");
+                      });
+});
+
 // Add services to the container.
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddControllers();
@@ -43,6 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(PupperApp);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

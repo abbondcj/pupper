@@ -11,15 +11,15 @@ namespace pupper_back_end_api.Models
         [Required, MaxLength(254)]
         public string Email { get; set; }
 
-        [Required, MaxLength(40)]
-        public string FirstName { get; set; }
+        [MaxLength(40)]
+        public string? FirstName { get; set; }
 
-        [Required, MaxLength(40)]
-        public string LastName { get; set; }
+        [MaxLength(40)]
+        public string? LastName { get; set; }
 
-        [Required, MaxLength(40)]
-        public string Username { get; set; }
-        public int PrimaryHouseId { get; set; }
+        [MaxLength(40)]
+        public string? Username { get; set; }
+        public int? PrimaryHouseId { get; set; }
 
 
     }

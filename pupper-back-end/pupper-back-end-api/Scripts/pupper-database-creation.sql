@@ -8,9 +8,9 @@ CREATE TABLE [dbo].[User] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [firebaseId] varchar(28) NOT NULL,
   [email] varchar(254) NOT NULL,
-  [firstName] varchar(40) NOT NULL,
-  [lastName] varchar(40) NOT NULL,
-  [username] varchar(40) NOT NULL,
+  [firstName] varchar(40),
+  [lastName] varchar(40),
+  [username] varchar(40),
   [primaryHouseId] int
 )
 GO

@@ -1,12 +1,12 @@
 // index for router
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Activity from '../components/Activity';
-import Home from '../components/Home';
-import Learn from '../components/Learn';
+import Activity from '../pages/Activity';
+import Home from '../pages/Home';
+import Learn from '../pages/Learn';
 import ResponsiveAppBar from '../components/NavBar';
-import Profile from '../components/Profile';
-import Pups from '../components/Pups';
+import Profile from '../pages/Profile';
+import Pups from '../pages/Pups';
 
 export default function Routes({ user }) {
   return (
