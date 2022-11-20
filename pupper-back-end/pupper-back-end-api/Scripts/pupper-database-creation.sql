@@ -21,11 +21,11 @@ CREATE TABLE [dbo].[House] (
   [houseOwnerId] int NOT NULL,
   [name] varchar(40) NOT NULL,
   [joinCode] int NOT NULL,
-  [address1] varchar(254) NOT NULL,
-  [address2] varchar(254) NOT NULL,
-  [city] varchar(40) NOT NULL,
-  [state] varchar(2) NOT NULL,
-  [zip] varchar(10) NOT NULL
+  [address1] varchar(254),
+  [address2] varchar(254),
+  [city] varchar(40),
+  [state] varchar(2),
+  [zip] varchar(10)
 )
 GO
 
@@ -96,6 +96,17 @@ GO
 --INSERT BASE HOUSE MEMBER
 INSERT INTO [dbo].[houseMember] VALUES ('1','1')
 GO
+--INSERT BASE ACTIVITY
+INSERT INTO [dbo].[Activity] VALUES ('1', '1', '2022-11-8', '8:12:34', 'Ate all her food')
+GO
+--INSERT BASE ACTIVITY TYPE
+INSERT INTO [dbo].[ActivityType] VALUES ('Breakfast')
+GO
+--INSERT BASE NOTE
+INSERT INTO [dbo].[Note] VALUES ('1', '1', '2022-11-8', '15:00:45', 'Would not come up stairs', 'Sniffing a lot right before having to come up the stairs')
+GO
+--INSERT BASE RULE
+INSERT INTO [dbo].[Rule] VALUES ('1', 'Breakfast at 6-8am', '2 scoops of big yellow food bag - tell her wait then point at food and say eat')
 
 
 
