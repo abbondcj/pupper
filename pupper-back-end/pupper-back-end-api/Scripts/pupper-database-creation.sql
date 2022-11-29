@@ -29,12 +29,12 @@ CREATE TABLE [dbo].[House] (
 )
 GO
 
-CREATE TABLE [dbo].[houseMember] (
-  [id] int PRIMARY KEY IDENTITY(1, 1),
-  [userId] int NOT NULL,
-  [houseId] int NOT NULL
-)
-GO
+--CREATE TABLE [dbo].[houseMember] (
+--  [id] int PRIMARY KEY IDENTITY(1, 1),
+--  [userId] int NOT NULL,
+--  [houseId] int NOT NULL
+--)
+--GO
 
 CREATE TABLE [dbo].[Pup] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
@@ -51,37 +51,38 @@ GO
 CREATE TABLE [dbo].[Activity] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [pupId] int NOT NULL,
+  [houseId] int NOT NULL,
+  [userId] int NOT NULL,
   [activityTypeId] int NOT NULL,
-  [date] date NOT NULL,
-  [time] time NOT NULL,
+  [datetime] dateTime NOT NULL,
   [description] varchar(254)
 )
 GO
 
 CREATE TABLE [dbo].[ActivityType] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
-  [type] varchar(40) NOT NULL
+  [name] varchar(40) NOT NULL
 )
 GO
 
-CREATE TABLE [dbo].[Note] (
-	[id] int PRIMARY KEY IDENTITY(1, 1),
-	[userId] int NOT NULL,
-	[pupId] int NOT NULL,
-	[date] date NOT NULL,
-	[time] time NOT NULL,
-	[title] varchar(100) NOT NULL,
-	[details] varchar(240)
-)
-GO
+--CREATE TABLE [dbo].[Note] (
+--	[id] int PRIMARY KEY IDENTITY(1, 1),
+--	[userId] int NOT NULL,
+--	[pupId] int NOT NULL,
+--	[date] date NOT NULL,
+--	[time] time NOT NULL,
+--	[title] varchar(100) NOT NULL,
+--	[details] varchar(240)
+--)
+--GO
 
-CREATE TABLE [dbo].[Rule] (
-	[id] int PRIMARY KEY IDENTITY(1, 1),
-	[pupId] int NOT NULL,
-	[title] varchar(100) NOT NULL,
-	[details] varchar(254)
-)
-GO
+--CREATE TABLE [dbo].[Rule] (
+--	[id] int PRIMARY KEY IDENTITY(1, 1),
+--	[pupId] int NOT NULL,
+--	[title] varchar(100) NOT NULL,
+--	[details] varchar(254)
+--)
+--GO
 
 
 --INSERT BASE USER
@@ -93,20 +94,20 @@ GO
 --INSERT BASE PUP
 INSERT INTO [dbo].[Pup] VALUES ('1', '1', 'Daisy', 'Pembroke Welsh Corgi', '2', '1', '0')
 GO
---INSERT BASE HOUSE MEMBER
-INSERT INTO [dbo].[houseMember] VALUES ('1','1')
-GO
+----INSERT BASE HOUSE MEMBER
+--INSERT INTO [dbo].[houseMember] VALUES ('1','1')
+--GO
 --INSERT BASE ACTIVITY
-INSERT INTO [dbo].[Activity] VALUES ('1', '1', '2022-11-8', '8:12:34', 'Ate all her food')
+INSERT INTO [dbo].[Activity] VALUES ('1', '1', '1', '1', '2022-11-11 8:23:44', 'Ate all her food')
 GO
 --INSERT BASE ACTIVITY TYPE
 INSERT INTO [dbo].[ActivityType] VALUES ('Breakfast')
 GO
---INSERT BASE NOTE
-INSERT INTO [dbo].[Note] VALUES ('1', '1', '2022-11-8', '15:00:45', 'Would not come up stairs', 'Sniffing a lot right before having to come up the stairs')
-GO
---INSERT BASE RULE
-INSERT INTO [dbo].[Rule] VALUES ('1', 'Breakfast at 6-8am', '2 scoops of big yellow food bag - tell her wait then point at food and say eat')
+----INSERT BASE NOTE
+--INSERT INTO [dbo].[Note] VALUES ('1', '1', '2022-11-8', '15:00:45', 'Would not come up stairs', 'Sniffing a lot right before having to come up the stairs')
+--GO
+----INSERT BASE RULE
+--INSERT INTO [dbo].[Rule] VALUES ('1', 'Breakfast at 6-8am', '2 scoops of big yellow food bag - tell her wait then point at food and say eat')
 
 
 

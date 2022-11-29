@@ -160,6 +160,36 @@ namespace pupper_back_end_api.Repositories
             }
         }
 
+        public bool ExistingRecordCheck(HouseMember houseMember, int houseMemberId, int houseId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT * FROM [dbo].[HouseMember] hmTable
+                                    WHERE hmTable.userId = @HouseMemberId
+                                    AND hmTable.houseId = @HouseId
+                                    ";
+
+                    cmd.Parameters.AddWithValue("@HouseMemberId", houseMemberId);
+                    cmd.Parameters.AddWithValue("@HouseId", houseId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return true;
+                        } else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         public void UpdateHouseMember(int id, HouseMember houseMember)
         {
             throw new NotImplementedException();

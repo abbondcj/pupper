@@ -8,6 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import UserApi from '../../api/userApi';
 import { firebase } from '../client';
 
 const AuthContext = createContext();
@@ -23,9 +24,10 @@ const AuthProvider = (props) => {
   // an object/value = user is logged in
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((fbUser) => {
+    firebase.auth().onAuthStateChanged(async (fbUser) => {
       if (fbUser) {
-        setUser(fbUser);
+        const pupperUser = await UserApi.UserExists(fbUser.uid, fbUser.Aa);
+        setUser({ ...fbUser, ...pupperUser });
       } else {
         setUser(false);
       }

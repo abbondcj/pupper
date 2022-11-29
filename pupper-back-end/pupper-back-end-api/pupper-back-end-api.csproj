@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\HouseMemberController.cs" />
+    <Compile Remove="Models\HouseMember.cs" />
+    <Compile Remove="Repositories\HouseMemberRepository.cs" />
+    <Compile Remove="Repositories\IHouseMemberRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />

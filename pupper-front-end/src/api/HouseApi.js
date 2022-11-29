@@ -1,6 +1,6 @@
-const UserApi = {
-  UserExists: async (uid, token) => {
-    const result = await fetch(`https://localhost:7176/Auth/${uid}`, {
+const HouseApi = {
+  GetHousesByUserId: async (userId, token) => {
+    const result = await fetch(`https://localhost:7176/house/owner/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -11,4 +11,4 @@ const UserApi = {
   },
 };
 
-export default UserApi;
+export default HouseApi;

@@ -10,8 +10,5 @@ namespace pupper_back_end_api.Models
         public int UserId { get; set; }
         [Required]
         public int HouseId { get; set; }
-
-        public User? User { get; set; }
-        public House? House { get; set; }
     }
 }

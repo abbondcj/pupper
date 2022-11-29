@@ -42,10 +42,10 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
-builder.Services.AddTransient<IHouseMemberRepository, HouseMemberRepository>();
 builder.Services.AddTransient<IHouseRepository, HouseRepository>();
 builder.Services.AddTransient<IPupRepository, PupRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IActivityRepository, ActivityRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

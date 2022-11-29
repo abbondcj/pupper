@@ -39,5 +39,20 @@ namespace pupper_back_end_api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public IActionResult AddNewHouseMember([FromBody]HouseMember housemember, int houseMemberId, int houseId)
+        {
+            var exists = _houseMemberRepo.ExistingRecordCheck(housemember, houseMemberId, houseId);
+            if (exists)
+            {
+                _houseMemberRepo.AddHouseMember(housemember);
+                return Ok();
+            } else
+            {
+                return BadRequest("record exists");
+            }
+
+        }
     }
 }
