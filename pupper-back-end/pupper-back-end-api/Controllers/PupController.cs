@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using pupper_back_end_api.Models;
 using pupper_back_end_api.Repositories;
 
@@ -6,6 +7,7 @@ using pupper_back_end_api.Repositories;
 
 namespace pupper_back_end_api.Controllers
 {
+    [Authorize]
     [Route("/[controller]")]
     [ApiController]
     public class PupController : ControllerBase

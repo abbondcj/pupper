@@ -13,41 +13,46 @@ export default function Home({ authenticatedUser }) {
       HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
         .then(
           (data) => {
-            setPrimaryHouse(data[0]);
-            const nonPrimaryHouseList = [];
-            /* eslint-disable */
-            data.map((house) => {
-              if (house.id === authenticatedUser.primaryHouseId) {
-                setPrimaryHouse(house);
-                console.log("primary detected");
-              } else {
-                nonPrimaryHouseList.push(house);
-              }
-            });
-            setNonPrimaryHouses(nonPrimaryHouseList);
+            if (data !== null) {
+              setPrimaryHouse(data[0]);
+              const nonPrimaryHouseList = [];
+              /* eslint-disable */
+              data.map((house) => {
+                if (house.id === authenticatedUser.primaryHouseId) {
+                  setPrimaryHouse(house);
+                  PupsApi.GetPupsByHouseId(house.id, authenticatedUser.Aa)
+                    .then((data) => {
+                      setPrimaryPups(data);
+                    })
+                  console.log("primary detected");
+                } else {
+                  nonPrimaryHouseList.push(house);
+                }
+              });
+              setNonPrimaryHouses(nonPrimaryHouseList);
+              console.log(primaryHouse);
+            }
           }
-        )
-        .then(() => {
-          PupsApi.GetPupsByHouseId(primaryHouse.id, authenticatedUser.Aa)
-            .then((data) => {
-              setPrimaryPups(data);
-            })
-        })
+        );
     }, [],
   );
+  
   return (
     <div>
       <h1>Home</h1>
       <p><b>Homeowner:</b> {authenticatedUser.firstName + ` ` + authenticatedUser.lastName}</p>
       <div>
         {
-          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p>{primaryHouse.address1}</p><p>{primaryHouse.address2}</p><p>{primaryHouse.state + `, ` + primaryHouse.zip}</p></div> : ``
+          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p>{primaryHouse.address1}</p><p>{primaryHouse.address2}</p><p>{primaryHouse.state + `, ` + primaryHouse.zip}</p></div> : <p>No houses</p>
         }
         {
-          primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p>{pup.name}</p>)}</div> : <button>Add Pup</button>
+          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p>{pup.name}</p>)}</div> : <button>Add Pup</button> : ''
         }
-        <button>Details</button>
-        <button>Activity</button>
+        {
+          primaryPups != null
+          ? <div><button>Details</button><button>Activity</button></div>
+          : ''
+        }
       </div>
       <div>
         {
