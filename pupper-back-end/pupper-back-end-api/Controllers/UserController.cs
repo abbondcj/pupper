@@ -7,7 +7,7 @@ using pupper_back_end_api.Repositories;
 
 namespace pupper_back_end_api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
