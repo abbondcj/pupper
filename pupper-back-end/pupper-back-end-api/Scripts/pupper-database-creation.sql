@@ -100,9 +100,36 @@ GO
 --INSERT BASE ACTIVITY
 INSERT INTO [dbo].[Activity] VALUES ('1', '1', '1', '1', '2022-11-11 8:23:44', 'Ate all her food')
 GO
---INSERT BASE ACTIVITY TYPE
+--INSERT BASE ACTIVITY TYPES
 INSERT INTO [dbo].[ActivityType] VALUES ('Breakfast')
 GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Dinner')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Accident - Pee')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Accident - Poo')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Outside - Pee')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Outside - Poo')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Walk')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Good behavior')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Bad Behavior')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Medicine')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Training')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Vet visit')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Injury')
+GO
+INSERT INTO [dbo].[ActivityType] VALUES ('Other')
+GO
+
 ----INSERT BASE NOTE
 --INSERT INTO [dbo].[Note] VALUES ('1', '1', '2022-11-8', '15:00:45', 'Would not come up stairs', 'Sniffing a lot right before having to come up the stairs')
 --GO
