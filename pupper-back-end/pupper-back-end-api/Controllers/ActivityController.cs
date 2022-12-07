@@ -7,7 +7,7 @@ using pupper_back_end_api.Repositories;
 
 namespace pupper_back_end_api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("/[controller]")]
     [ApiController]
     public class ActivityController : ControllerBase
@@ -33,7 +33,7 @@ namespace pupper_back_end_api.Controllers
         public IActionResult ReturnAllActivitiesByHouseId(int id)
         {
             List<Activity> result = _activityRepo.GetActivitiesByHouseId(id);
-            if (result == null)
+            if (result.Count == 0)
             {
                 return NoContent();
             }
