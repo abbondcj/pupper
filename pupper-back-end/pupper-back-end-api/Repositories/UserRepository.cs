@@ -218,18 +218,20 @@ namespace pupper_back_end_api.Repositories
                 {
                     cmd.CommandText = @"
 										UPDATE [dbo].[User]
-										SET email = @email,
-											firstName = @firstName,
-											lastName = @lastname,
-											username = @username,
-											primaryHouseId = @primaryHouseId
+										SET [email] = @email,
+                                            [firebaseId] = @firebaseId,
+											[firstName] = @firstName,
+											[lastName] = @lastName,
+											[username] = @username,
+											[primaryHouseId] = @primaryHouseId
 								
-										WHERE Id = @id
+										WHERE [id] = @id
 										";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@email", user.Email);
-                    cmd.Parameters.AddWithValue("@firstName", user.FirstName != null ? user.FirstName : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@lastName", user.LastName != null ? user.LastName : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@firebaseId", user.FirebaseId);
+                    cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", user.LastName);
                     cmd.Parameters.AddWithValue("@username", user.Username != null ? user.Username : DBNull.Value);
                     cmd.Parameters.AddWithValue("@primaryHouseId", user.PrimaryHouseId != null ? user.PrimaryHouseId : DBNull.Value);
 

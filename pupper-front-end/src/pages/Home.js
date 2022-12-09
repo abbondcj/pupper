@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
+// import Activity from './Activity';
 
-export default function Home({ authenticatedUser }) {
+export default function Home({ authenticatedUser, setHouseFilterState }) {
   const [primaryHouse, setPrimaryHouse] = useState(null);
   const [nonPrimaryHouses, setNonPrimaryHouses] = useState(null);
   const [primaryPups, setPrimaryPups] = useState(null);
-  console.log(authenticatedUser);
+  const history = useHistory();
 
   useEffect(
     () => {
@@ -24,13 +26,11 @@ export default function Home({ authenticatedUser }) {
                     .then((data) => {
                       setPrimaryPups(data);
                     })
-                  console.log("primary detected");
                 } else {
                   nonPrimaryHouseList.push(house);
                 }
               });
               setNonPrimaryHouses(nonPrimaryHouseList);
-              console.log(primaryHouse);
             }
           }
         );
@@ -40,24 +40,23 @@ export default function Home({ authenticatedUser }) {
   return (
     <div>
       <h1>Home</h1>
-      <p><b>Homeowner:</b> {authenticatedUser.firstName + ` ` + authenticatedUser.lastName}</p>
       <div>
         {
           primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p>{primaryHouse.address1}</p><p>{primaryHouse.address2}</p><p>{primaryHouse.state + `, ` + primaryHouse.zip}</p></div> : <p>No houses</p>
         }
         {
-          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p>{pup.name}</p>)}</div> : <button>Add Pup</button> : ''
+          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button>Add Pup</button> : ''
         }
         {
           primaryPups != null
-          ? <div><button>Details</button><button>Activity</button></div>
+          ? <div><button>Details</button><button onClick={() => { setHouseFilterState(primaryHouse.id); history.push("/Activity"); }}>Activity</button></div>
           : ''
         }
       </div>
       <div>
         {
           nonPrimaryHouses != null ? 
-          nonPrimaryHouses.map((house) => <div key={house.id}><h1>{house.name}</h1><button>Details</button><button>Activity</button></div>) : ``
+          nonPrimaryHouses.map((house) => <div key={house.id}><h1>{house.name}</h1><button>Details</button><button onClick={() => { setHouseFilterState(house.id); history.push("/Activity"); }}>Activity</button></div>) : ``
         }
       </div>
       <div>

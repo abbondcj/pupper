@@ -6,6 +6,9 @@ const PupsApi = {
         Authorization: `Bearer ${token}`,
       },
     });
+    if (result.status !== 200) {
+      return null;
+    }
     const jsonResult = await result.json();
     return jsonResult;
   },
@@ -16,6 +19,9 @@ const PupsApi = {
         Authorization: `Bearer ${token}`,
       },
     });
+    if (result.status !== 200) {
+      return null;
+    }
     const jsonResult = await result.json();
     return jsonResult;
   },
