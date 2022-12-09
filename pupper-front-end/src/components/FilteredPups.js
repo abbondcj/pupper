@@ -1,7 +1,8 @@
 import React from 'react';
 import Pup from './Pup';
 
-function FilteredPups({ pupList, filter, auth }) {
+/* eslint-disable */ 
+function FilteredPups({ pupList, filter, auth, setFilteredPups }) {
   const pups = [];
 
   if (filter === '0') {
@@ -20,7 +21,7 @@ function FilteredPups({ pupList, filter, auth }) {
   return (
     pups.length > 0
     ? pups.map((pup) => {
-      return(<div key={pup.id}><Pup pup={pup} authenticatedToken={auth} /></div>);
+      return(<div key={pup.id}><Pup pup={pup} authenticatedToken={auth} setFilter={setFilteredPups} /></div>);
     })
     : <p>No Pups</p>
   )
