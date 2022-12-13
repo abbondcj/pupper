@@ -12,6 +12,16 @@ const ActivityApi = {
     const jsonResult = await result.json();
     return jsonResult;
   },
+  AddActivity: (activity, token) => {
+    fetch('https://localhost:7176/Activity', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(activity),
+    });
+  },
 };
 
 export default ActivityApi;

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { signIn } from '../utils/auth';
 import Logo from '../assets/pupper-logo.png';
 
-export default function Banner({ showLogin }) {
+export default function Banner({ showLogin, register }) {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -69,7 +69,14 @@ export default function Banner({ showLogin }) {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip>
-              {showLogin ? <IconButton href="/Login">Login</IconButton> : <IconButton onClick={signIn}>Register</IconButton>}
+              {
+              /* eslint-disable */
+              showLogin == false && register 
+                ? <IconButton></IconButton> 
+                : showLogin 
+                ? <IconButton href="/Login" >Login</IconButton> 
+                : <IconButton onClick={signIn}>Register</IconButton>
+              }
             </Tooltip>
           </Box>
         </Toolbar>
