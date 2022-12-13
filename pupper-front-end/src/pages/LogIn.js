@@ -9,7 +9,8 @@ export default function LogIn() {
     <>
       <Banner showLogin={false} />
       <div className="text-center mt-5">
-        <h1>Welcome! Sign In!</h1>
+        <h1>Welcome to pupper</h1>
+        <h3>sign in</h3>
         <button type="button" className="btn btn-success" onClick={() => { signIn().then(() => { history.push('/'); }); }}>
           Sign In
         </button>

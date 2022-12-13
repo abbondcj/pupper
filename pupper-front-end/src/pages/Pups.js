@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
+import AddHomeModal from '../components/AddHomeModal';
+import AddPupModal from '../components/AddPupModal';
 import FilteredPups from '../components/FilteredPups';
 
 export default function Pups({ authenticatedUser, setPupFilterState }) {
   const [pupList, setPupList] = useState([]);
   const [houseList, setHouseList] = useState([]);
+  const [showAddPupModal, setShowAddPupModal] = useState(false);
+  const [showAddHouseModal, setShowAddHouseModal] = useState(false);
+  const [addNewPup, setAddNewPup] = useState(false);
+  const [addNewHouse, setAddNewHouse] = useState(false);
   const [filter, setFilter] = useState('0');
+
+  useEffect(
+    () => {
+      HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
+        .then((data) => {
+          if (data !== null) {
+            setHouseList(data);
+          }
+        });
+    }, [addNewHouse],
+  );
 
   useEffect(
     () => {
@@ -16,13 +33,7 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
             setPupList(data);
           }
         });
-      HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
-        .then((data) => {
-          if (data !== null) {
-            setHouseList(data);
-          }
-        });
-    }, [],
+    }, [addNewPup],
   );
 
   return (
@@ -50,11 +61,13 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
         </div>
         <div>
           {
-            houseList.length > 0
-              ? <button type="submit">Add pup</button>
-              : <button type="submit">Add house</button>
+            houseList.length === 0
+              ? <button onClick={() => { setShowAddHouseModal(true); }} type="submit">Add House</button>
+              : <button onClick={() => { setShowAddPupModal(true); }} type="submit">Add Pup</button>
           }
         </div>
+        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} newHouseAdded={setAddNewHouse} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setAddNewPup} houseSelected={null} />
       </div>
     </div>
   );

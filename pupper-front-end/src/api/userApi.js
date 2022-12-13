@@ -9,6 +9,16 @@ const UserApi = {
     const jsonResult = await result.json();
     return jsonResult;
   },
+  UpdateUser: async (userId, userObj, token) => {
+    fetch(`https://localhost:7176/User/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userObj),
+    });
+  },
 };
 
 export default UserApi;

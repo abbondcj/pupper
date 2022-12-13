@@ -12,14 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { signOut } from '../utils/auth';
 import Logo from '../assets/pupper-logo.png';
 
 const pages = ['Pups', 'Activity', 'Learn'];
 
-export default function ResponsiveAppBar() {
+export default function ResponsiveAppBar({ resetPupFilter, resetHouseFilter, user }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const history = useHistory();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -66,7 +68,7 @@ export default function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            <Link className="nav-link" to="/">PUPPER</Link>
+            PUPPER
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -99,9 +101,9 @@ export default function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => { handleCloseNavMenu(); history.replace(`/${page}`); resetHouseFilter(0); resetPupFilter(0); }}>
                   <Typography textAlign="center">
-                    <Link className="nav-link" to={page}>{page}</Link>
+                    {page}
                   </Typography>
                 </MenuItem>
               ))}
@@ -111,7 +113,7 @@ export default function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               '&:hover': {
                 color: 'white',
@@ -126,7 +128,7 @@ export default function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            <Link className="nav-link" to="/">PUPPER</Link>
+            PUPPER
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -135,8 +137,7 @@ export default function ResponsiveAppBar() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link className="nav-link" to={page}>{page}</Link>
+              >{page}
               </Button>
             ))}
           </Box>
@@ -144,7 +145,7 @@ export default function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user.username} src={user.photoUrl} />
               </IconButton>
             </Tooltip>
             <Menu

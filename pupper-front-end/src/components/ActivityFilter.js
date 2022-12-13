@@ -7,7 +7,7 @@ import PupsApi from '../api/PupsApi';
 //       -- Manage filters in state, set up props to be passed in for pre-filtering
 
 function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
-  const [activitiesList, setActivities] = useState([]);
+  const [activitiesList, setActivities] = useState(null);
   const [houseList, setHouses] = useState([]);
   const [pupList, setPupList] = useState([]);
   const [pupFilter, setPupFilter] = useState(pupPreFilter !== null ? pupPreFilter : 0);
@@ -29,7 +29,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
   useEffect(
     () => {
       /* eslint-disable */
-        let activityCopy = activitiesList;
+        let activityCopy = activitiesList == null ? [] : activitiesList;
         houseList !== null
           ? houseList.map((house) => {
             ActivityApi.GetActivitiesByHouseId(house.id, user.Aa)
