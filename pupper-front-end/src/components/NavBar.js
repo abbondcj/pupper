@@ -11,12 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { signOut } from '../utils/auth';
 import Logo from '../assets/pupper-logo.png';
 
-const pages = ['Pups', 'Activity', 'Learn'];
+const pages = ['Home', 'Pups', 'Activity', 'Learn'];
 
 export default function ResponsiveAppBar({ resetPupFilter, resetHouseFilter, user }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -166,12 +165,12 @@ export default function ResponsiveAppBar({ resetPupFilter, resetHouseFilter, use
             >
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                  <Link className="nav-link" to="Profile">Profile</Link>
+                  <Button href="/Profile">Profile</Button>
                 </Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center" onClick={() => signOut()}>
-                  <Link className="nav-link" to="/">Logout</Link>
+                  <Button href="/">Logout</Button>
                 </Typography>
               </MenuItem>
             </Menu>

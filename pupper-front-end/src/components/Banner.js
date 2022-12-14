@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
-import { Link } from 'react-router-dom';
 import { signIn } from '../utils/auth';
 import Logo from '../assets/pupper-logo.png';
 
@@ -41,7 +40,7 @@ export default function Banner({ showLogin, register }) {
               textDecoration: 'none',
             }}
           >
-            <Link className="nav-link" to="/">PUPPER</Link>
+            PUPPER
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} />
@@ -64,7 +63,7 @@ export default function Banner({ showLogin, register }) {
               textDecoration: 'none',
             }}
           >
-            <Link className="nav-link" to="/">PUPPER</Link>
+            PUPPER
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
           <Box sx={{ flexGrow: 0 }}>

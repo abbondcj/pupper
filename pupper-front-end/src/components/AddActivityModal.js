@@ -97,7 +97,7 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
                 ? <><label htmlFor="pupSelect">Pup:</label><select onChange={(e) => { setPupInfo(e.target.value); }}><option value={0}>Select a pup</option>{pupList.map((pup) => <option key={pup.id} value={`${pup.id}-${pup.houseId}`}>{pup.name}</option>)}</select><br></br></>
                 : <button type="submit">Add Pup</button>
             }
-            {houseName == null ? <></> : <p>House: {houseName}</p>}
+            {houseName == null ? <><label htmlFor="houseSelect">House:</label><select className="houseSelect" onChange={(e) => { setHouseId(parseInt(e.target.value)); }}>{houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)}</select><br></br></> : <p>House: {houseName}</p>}
             {
               <>
                 <label htmlFor="houseSelect">Activity:</label>

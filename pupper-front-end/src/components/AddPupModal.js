@@ -51,7 +51,8 @@ function AddPupModal({ show, user, setShowModal, newPupAdded, houseSelected }) {
         .then((data) => {
           setHouseList(data);
         });
-    }, []
+      setPupHouse(houseSelected);
+    }, [show]
   );  
 
   if (show) {
@@ -72,7 +73,7 @@ function AddPupModal({ show, user, setShowModal, newPupAdded, houseSelected }) {
             <input name="pupName" placeholder="Name" onChange={(e) => { setPupName(e.target.value); }} /><br></br>
             {
                 houseSelected !== null 
-                ? <><label htmlFor="houseSelect">House:</label><br></br><input disabled value={houseSelected} /></>
+                ? <><label htmlFor="houseSelect">House:</label>{houseList.map((house) => { if (house.id == houseSelected) { return (<input key={house.id} disabled value={house.name} placeholder={house.name} />)}})}<br></br></>
                 : <><label>House:</label><select onChange={(e) => { setPupHouse(parseInt(e.target.value)); }}><option value={0}>Select a house</option>{ houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>) }</select><br></br></>
             }
             <label htmlFor="breed">Breed:</label>

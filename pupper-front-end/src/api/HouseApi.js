@@ -35,6 +35,16 @@ const HouseApi = {
       body: JSON.stringify(house),
     });
   },
+  EditHouse: async (house, id, token) => {
+    fetch(`https://localhost:7176/House/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(house),
+    });
+  },
 };
 
 export default HouseApi;
