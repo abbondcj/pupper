@@ -3,14 +3,22 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 import AddHomeModal from '../components/AddHomeModal';
-// import Activity from './Activity';
+import AddPupModal from '../components/AddPupModal';
+import EditHomeModal from '../components/EditHouseModal';
+import HomeDetailModal from '../components/HomeDetailModal';
 
 export default function Home({ authenticatedUser, setHouseFilterState }) {
   const [primaryHouse, setPrimaryHouse] = useState(null);
   const [nonPrimaryHouses, setNonPrimaryHouses] = useState(null);
   const [primaryPups, setPrimaryPups] = useState(null);
   const [showAddHouseModal, setShowAddHouseModal] = useState(false);
+  const [showEditHouseModal, setShowEditHouseModal] = useState(false);
+  const [showViewDetailModal, setShowViewDetailModal] = useState(false);
+  const [showAddPupModal, setShowAddPupModal] = useState(false);
+  const [houseToAddPup, setHousetoAddPup] = useState(null);
   const [newHouseAdded, setNewHouseAdded] = useState(false);
+  const [houseToEdit, setHouseToEdit] = useState(null);
+  const [houseToView, setHouseToView] = useState(null);
   const history = useHistory();
 
   useEffect(
@@ -20,22 +28,26 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
           (data) => {
             if (data !== null) {
               setPrimaryHouse(data[0]);
-              const nonPrimaryHouseList = [];
-              /* eslint-disable */
-              data.map((house, index) => {
-                if (house.id === authenticatedUser.primaryHouseId) {
-                  setPrimaryHouse(house);
-                  PupsApi.GetPupsByHouseId(house.id, authenticatedUser.Aa)
-                    .then((data) => {
-                      setPrimaryPups(data);
-                    })
-                } else {
-                  if (index > 0) {
-                    nonPrimaryHouseList.push(house);
-                  }
-                }
-              });
-              setNonPrimaryHouses(nonPrimaryHouseList);
+              PupsApi.GetPupsByHouseId(data[0].id, authenticatedUser.Aa)
+                .then((pupData) => {
+                  setPrimaryPups(pupData);
+                  const nonPrimaryHouseList = [];
+                  /* eslint-disable */
+                  data.map((house, index) => {
+                    if (house.id === authenticatedUser.primaryHouseId) {
+                      setPrimaryHouse(house);
+                      PupsApi.GetPupsByHouseId(house.id, authenticatedUser.Aa)
+                        .then((data) => {
+                          setPrimaryPups(data);
+                        })
+                    } else {
+                      if (index > 0) {
+                        nonPrimaryHouseList.push(house);
+                      }
+                    }
+                  });
+                  setNonPrimaryHouses(nonPrimaryHouseList);
+                });
             }
           }
         );
@@ -50,23 +62,26 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
           primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p>{primaryHouse.address1}</p><p>{primaryHouse.address2}</p><p>{primaryHouse.state + `, ` + primaryHouse.zip}</p></div> : <p>No houses</p>
         }
         {
-          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button>Add Pup</button> : ''
+          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { setHousetoAddPup(parseInt(e.target.value)); setShowAddPupModal(true); }}>Add Pup</button> : ''
         }
         {
           primaryHouse != null
-          ? <div><button>Edit</button><button onClick={async () => { await setHouseFilterState(primaryHouse.id);  history.push("/Activity"); }}>Activity</button></div>
+          ? <div><button value={primaryHouse.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true); }}>Details</button><button value={primaryHouse.id} onClick={(e) => { setHouseFilterState(parseInt(e.target.value));  history.push("/Activity"); }}>Activity</button></div>
           : ''
         }
       </div>
       <div>
         {
           nonPrimaryHouses != null ? 
-          nonPrimaryHouses.map((house) => <div key={house.id}><h1>{house.name}</h1><button>Details</button><button onClick={async () => { await setHouseFilterState(house.id);  history.push("/Activity"); }}>Activity</button></div>) : ``
+          nonPrimaryHouses.map((house) => <div key={house.id}><h1>{house.name}</h1><button value={house.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true);  }}>Details</button><button onClick={async () => { await setHouseFilterState(house.id);  history.push("/Activity"); }}>Activity</button></div>) : ``
         }
       </div>
       <div>
         <button onClick={() => { setShowAddHouseModal(true); }}>Add Home</button>
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setNewHouseAdded} houseSelected={houseToAddPup} />
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} newHouseAdded={setNewHouseAdded} />
+        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} newHouseAdded={setNewHouseAdded} houseId={houseToEdit} />
+        <HomeDetailModal user={authenticatedUser} show={showViewDetailModal} setShowModal={setShowViewDetailModal} houseId={houseToView} setHomeToEdit={setHouseToEdit} showEditModal={setShowEditHouseModal} houseToAddPup={setHousetoAddPup} showAddPup={setShowAddPupModal} />
       </div>
     </div>
   );

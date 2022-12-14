@@ -47,22 +47,27 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
   return (
     <div>
       <div>
-        <select onChange={(e) => {setPupFilter(parseInt(e.target.value)); }}>
+        <select value={pupFilter} onChange={(e) => {setPupFilter(parseInt(e.target.value)); }}>
           <option value={0}>All pups</option>
           {
             pupList !== null
-              ? pupList.map((pup) => pupFilter == pup.id ? <option selected key={pup.id} value={pup.id}>{pup.name}</option> : <option key={pup.id} value={pup.id}>{pup.name}</option>)
+              ? pupList.map((pup) => pupFilter == pup.id ? <option key={pup.id} value={pup.id}>{pup.name}</option> : <option key={pup.id} value={pup.id}>{pup.name}</option>)
               : ''
           }
         </select>
-        <select onChange={(e) => {setHouseFilter(parseInt(e.target.value)); }}>
+        <select value={houseFilter} onChange={(e) => {setHouseFilter(parseInt(e.target.value)); }}>
           <option value={0}>All Houses</option>
           {
             houseList !== null
-              ? houseList.map((house) => houseFilter == house.id ? <option selected key={house.id} value={house.id}>{house.name}</option> : <option key={house.id} value={house.id}>{house.name}</option>)
+              ? houseList.map((house) => houseFilter == house.id ? <option key={house.id} value={house.id}>{house.name}</option> : <option key={house.id} value={house.id}>{house.name}</option>)
               : ''
           }
         </select>
+        {
+          pupFilter !== 0 || houseFilter !== 0 
+           ? <button type="submit" onClick={() => { setPupFilter(0); setHouseFilter(0); }}>Reset</button>
+           : <></>
+        }
       </div>
       <Table className="table-primary align-middle table-hover">
         <thead>
@@ -72,7 +77,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
             <th itemScope="col">House</th>
             <th itemScope="col">Activity</th>
             <th itemScope="col">Human</th>
-            <th itemScope="col">Date/Time</th>
+            <th itemScope="col" aria-sort="descending">Date/Time</th>
             <th itemScope="col">Detail</th>
           </tr>
         </thead>

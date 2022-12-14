@@ -27,6 +27,7 @@ export default function Routes({ user }) {
       <ResponsiveAppBar resetHouseFilter={setHouseFilter} resetPupFilter={setPupFilter} user={user} />
       <Switch>
         <Route exact path="/" component={() => <Home authenticatedUser={user} setHouseFilterState={setHouseFilter} />} />
+        <Route exact path="/Home" component={() => <Home authenticatedUser={user} setHouseFilterState={setHouseFilter} />} />
         <Route path="/Pups" component={() => <Pups authenticatedUser={user} setPupFilterState={setPupFilter} />} />
         <Route path="/Activity" component={() => <Activity authenticatedUser={user} houseFilterProp={houseFilter} pupFilterProp={pupFilter} />} />
         <Route path="/Learn" component={() => <Learn authenticatedUser={user} />} />
