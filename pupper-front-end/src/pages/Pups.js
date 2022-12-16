@@ -54,20 +54,20 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
         </select>
         <div>
           {
-            pupList.length > 0
-              ? <FilteredPups pupList={pupList} filter={filter} auth={authenticatedUser.Aa} setFilteredPups={setPupFilterState} />
-              : <p>No pups</p>
-          }
-        </div>
-        <div>
-          {
             houseList.length === 0
               ? <button onClick={() => { setShowAddHouseModal(true); }} type="submit">Add House</button>
               : <button onClick={() => { setShowAddPupModal(true); }} type="submit">Add Pup</button>
           }
         </div>
+        <div>
+          {
+            pupList.length > 0
+              ? <FilteredPups pupList={pupList} filter={filter} auth={authenticatedUser.Aa} setFilteredPups={setPupFilterState} />
+              : <p>No pups</p>
+          }
+        </div>
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} newHouseAdded={setAddNewHouse} />
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setAddNewPup} houseSelected={null} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setAddNewPup} houseSelected={null} showHomeDetail={null} />
       </div>
     </div>
   );

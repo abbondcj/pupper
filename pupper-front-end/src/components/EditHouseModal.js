@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import HouseApi from '../api/HouseApi';
 
 /* eslint-disable */
-function EditHomeModal({ show, user, setShowModal, newHouseAdded, houseId }) {
+function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
   const [homeName, setHomeName] = useState();
   const [address1, setAddress1] = useState(null);
   const [address2, setAddress2] = useState(null);
@@ -28,7 +28,7 @@ function EditHomeModal({ show, user, setShowModal, newHouseAdded, houseId }) {
     } else {
       HouseApi.EditHouse(newHome, houseId, user.Aa);
       setShowModal(false);
-      newHouseAdded(true);
+      setShowDetail(true);
     }
   };
 
@@ -39,6 +39,7 @@ function EditHomeModal({ show, user, setShowModal, newHouseAdded, houseId }) {
     setCity(null);
     setZip(null);
     setShowModal(false);
+    setShowDetail(true);
   }
 
   useEffect(

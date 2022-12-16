@@ -22,6 +22,30 @@ const ActivityApi = {
       body: JSON.stringify(activity),
     });
   },
+  GetActivityById: async (activityId, token) => {
+    const result = await fetch(`https://localhost:7176/Activity/${activityId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (result.status !== 200) {
+      return null;
+    }
+    const jsonResult = await result.json();
+    return jsonResult;
+  },
+  EditActivity: (activity, id, token) => {
+    fetch(`https://localhost:7176/Activity/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(activity),
+    });
+  },
 };
 
 export default ActivityApi;
