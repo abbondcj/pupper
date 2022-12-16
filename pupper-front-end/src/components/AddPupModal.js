@@ -26,11 +26,10 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }
       ageMonths: parseInt(pupAgeMonths == NaN ? null : pupAgeMonths)
     }
     if (newPup.name == null || newPup.ownerId == null || newPup.breed == null ) {
-      window.location.alert("House and Name must have values");
+      window.alert("House and Name must have values");
     } else {
       PupsApi.AddPup(newPup, user.Aa)
       setShowModal(false);
-      window.location.reload();
     }
   };
 

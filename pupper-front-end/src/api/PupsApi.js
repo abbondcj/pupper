@@ -48,6 +48,16 @@ const PupsApi = {
     const jsonResult = await result.json();
     return jsonResult;
   },
+  EditPup: (pup, id, token) => {
+    fetch(`https://localhost:7176/Pup/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(pup),
+    });
+  },
 };
 
 export default PupsApi;

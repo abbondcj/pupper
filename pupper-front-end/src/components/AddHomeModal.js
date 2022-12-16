@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import HouseApi from '../api/HouseApi';
 
 /* eslint-disable */
-function AddHomeModal({ show, user, setShowModal, newHouseAdded }) {
+function AddHomeModal({ show, user, setShowModal }) {
   const [homeName, setHomeName] = useState(null);
   const [address1, setAddress1] = useState(null);
   const [address2, setAddress2] = useState(null);
@@ -27,9 +27,7 @@ function AddHomeModal({ show, user, setShowModal, newHouseAdded }) {
     if (newHome.name == null || newHome.houseOwnerId == null || newHome.address1 == null || newHome.city == null || newHome.state == null || newHome.zip == null) {
       window.alert("Please enter a house name")
     } else {
-      HouseApi.AddHouse(newHome, token)
-      setShowModal(false);
-      window.location.reload();
+      HouseApi.AddHouse(newHome, token);
     }
   };
 
@@ -69,7 +67,7 @@ function AddHomeModal({ show, user, setShowModal, newHouseAdded }) {
             <label htmlFor="zip">Zip:</label>
             <input name="zip" placeholder="Zip" onChange={(e) => { setZip(e.target.value); }} /><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { addHouse(); }}>Add House</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { addHouse(); setShowModal(false); }}>Add House</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddNewHome}>Cancel</button>
         </Modal.Body>
       </Modal>

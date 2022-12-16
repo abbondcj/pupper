@@ -10,6 +10,7 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
   const [city, setCity] = useState(null);
   const [state, setState] = useState(null);
   const [zip, setZip] = useState(null);
+  const [editsMade, setEditsMade] = useState(false);
   const ownerId = user.id;
   const editHouse = () => {
     const newHome = {
@@ -73,19 +74,23 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
           <div>
             <label htmlFor="houseName">Name:</label>
             {/* eslint-disable */}
-            <input name="houseName" value={homeName || ""} placeholder="Name" onChange={(e) => { setHomeName(e.target.value); }} /><br></br>
+            <input name="houseName" value={homeName || ""} placeholder="Name" onChange={(e) => { setHomeName(e.target.value); setEditsMade(true); }} /><br></br>
             <label htmlFor="address1">Address 1:</label>
-            <input value={address1 || ""} name="address1" placeholder="Address 1" onChange={(e) => { setAddress1(e.target.value); }} /><br></br>
+            <input value={address1 || ""} name="address1" placeholder="Address 1" onChange={(e) => { setAddress1(e.target.value); setEditsMade(true); }} /><br></br>
             <label htmlFor="address2">Address 2:</label>
-            <input value={address2 || ""} name="address2" placeholder="Address 2" onChange={(e) => { setAddress2(e.target.value); }} /><br></br>
+            <input value={address2 || ""} name="address2" placeholder="Address 2" onChange={(e) => { setAddress2(e.target.value); setEditsMade(true); }} /><br></br>
             <label htmlFor="city">City:</label>
-            <input value={city || ""} name="city" placeholder="City" onChange={(e) => { setCity(e.target.value); }} /><br></br>
+            <input value={city || ""} name="city" placeholder="City" onChange={(e) => { setCity(e.target.value); setEditsMade(true); }} /><br></br>
             <label htmlFor="state">State</label>
-            <input value={state || ""} name="state" placeholder="State" onChange={(e) => { setState(e.target.value); }} /><br></br>
+            <input value={state || ""} name="state" placeholder="State" onChange={(e) => { setState(e.target.value); setEditsMade(true); }} /><br></br>
             <label htmlFor="zip">Zip:</label>
-            <input value={zip || ""} name="zip" placeholder="Zip" onChange={(e) => { setZip(e.target.value); }} /><br></br>
+            <input value={zip || ""} name="zip" placeholder="Zip" onChange={(e) => { setZip(e.target.value); setEditsMade(true); }} /><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { editHouse(); }}>Submit Edits</button>
+          {
+            editsMade
+              ? <button type="submit" className="btn__btn-primary" onClick={() => { editHouse(); }}>Submit Edits</button>
+              : <></>
+          }
           <button type="submit" className="btn__btn-primary" onClick={cancelEditHome}>Cancel</button>
         </Modal.Body>
       </Modal>
