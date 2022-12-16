@@ -53,7 +53,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
             }
           }
         );
-    }, [],
+    }, [showAddHouseModal, showViewDetailModal],
   );
   
   return (

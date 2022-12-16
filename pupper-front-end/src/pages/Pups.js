@@ -3,6 +3,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 import AddHomeModal from '../components/AddHomeModal';
 import AddPupModal from '../components/AddPupModal';
+import EditPupModal from '../components/EditPupModal';
 import FilteredPups from '../components/FilteredPups';
 
 export default function Pups({ authenticatedUser, setPupFilterState }) {
@@ -10,8 +11,8 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
   const [houseList, setHouseList] = useState([]);
   const [showAddPupModal, setShowAddPupModal] = useState(false);
   const [showAddHouseModal, setShowAddHouseModal] = useState(false);
-  const [addNewPup, setAddNewPup] = useState(false);
-  const [addNewHouse, setAddNewHouse] = useState(false);
+  const [showEditPupModal, setShowEditPupModal] = useState(false);
+  const [editPupId, setEditPupId] = useState(null);
   const [filter, setFilter] = useState('0');
 
   useEffect(
@@ -22,7 +23,7 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
             setHouseList(data);
           }
         });
-    }, [addNewHouse],
+    }, [showAddHouseModal, showEditPupModal],
   );
 
   useEffect(
@@ -33,7 +34,7 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
             setPupList(data);
           }
         });
-    }, [addNewPup],
+    }, [showAddPupModal, showEditPupModal],
   );
 
   return (
@@ -48,7 +49,7 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
           }
           {
             houseList.length > 0
-              ? houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)
+              ? houseList.map((house) => <option key={house.id} value={house.id || ''}>{house.name}</option>)
               : ''
           }
         </select>
@@ -62,12 +63,13 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
         <div>
           {
             pupList.length > 0
-              ? <FilteredPups pupList={pupList} filter={filter} auth={authenticatedUser.Aa} setFilteredPups={setPupFilterState} />
+              ? <FilteredPups pupList={pupList} filter={filter} auth={authenticatedUser.Aa} setFilteredPups={setPupFilterState} setPuptoEdit={setEditPupId} showPupEdit={setShowEditPupModal} />
               : <p>No pups</p>
           }
         </div>
-        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} newHouseAdded={setAddNewHouse} />
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setAddNewPup} houseSelected={null} showHomeDetail={null} />
+        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} houseSelected={null} showHomeDetail={null} />
+        <EditPupModal user={authenticatedUser} show={showEditPupModal} setShowModal={setShowEditPupModal} pupSelected={editPupId} setPupSelected={setEditPupId} houses={houseList} />
       </div>
     </div>
   );
