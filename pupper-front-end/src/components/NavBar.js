@@ -39,7 +39,7 @@ export default function ResponsiveAppBar({ resetPupFilter, resetHouseFilter, use
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="x2">
         <Toolbar disableGutters>
           <Box
             component="img"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import HouseApi from '../api/HouseApi';
+import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
 function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, showEditModal, houseToAddPup, showAddPup }) {
@@ -10,6 +11,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
   const [city, setCity] = useState(null);
   const [state, setState] = useState(null);
   const [zip, setZip] = useState(null);
+  const [pupList, setPupList] = useState(null);
   const goBack = () => {
     setHomeName(null);
     setAddress1(null);
@@ -23,8 +25,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
     () => {
       if (houseId !== null) {
         HouseApi.GetHouseById(houseId, user.Aa)
-        .then((data) => {
-            console.log(data);
+          .then((data) => {
             setHomeName(data.name);
             setAddress1(data.address1);
             setAddress2(data.address2);
@@ -32,6 +33,10 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
             setState(data.state);
             setZip(data.zip);
         });
+        PupsApi.GetPupsByHouseId(houseId, user.Aa)
+          .then((data) => {
+            setPupList(data);
+          })
       }
     }, [show]
   );
@@ -49,6 +54,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
         </Modal.Header>
         <Modal.Body className="modal__body">
           <div>
+            <h3>Details</h3>
             <p>Name: {homeName}</p>
             {
               address1 !== null ? <p>Address 1: {address1}</p> : <></>
@@ -64,6 +70,14 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
             }
             {
               zip !== null ? <p>Zip: {zip}</p> : <></>
+            }
+          </div>
+          <div>
+            <h3>Pups</h3>
+            {
+              pupList !== null 
+                ? pupList.map((pup) => <p key={pup.id}>{pup.name}</p>)
+                : <p>No Pups</p>
             }
           </div>
           <button value={houseId} type="submit" className="btn__btn-primary" onClick={(e) => { setShowModal(false); setHomeToEdit(parseInt(e.target.value)); showEditModal(true); }}>Edit House</button>

@@ -253,9 +253,15 @@ namespace pupper_back_end_api.Repositories
                 {
                     cmd.CommandText = @"SELECT 
                                         aTable.id AS activityId, 
-                                        aTable.pupId AS pupId, 
+                                        aTable.pupId AS pupId,
+                                        pTable.ownerId AS pupOwnerId,
+                                        pTable.name AS pupName,
                                         aTable.houseId AS houseId,
+                                        hTable.houseOwnerId,
+                                        hTable.name AS houseName,
                                         aTable.userId AS userId,
+                                        uTable.firstName,
+                                        uTable.lastName,
                                         aTable.activityTypeId AS activityTypeId, 
                                         aTable.dateTime AS dateTime, 
                                         aTable.description AS description, 
@@ -264,6 +270,12 @@ namespace pupper_back_end_api.Repositories
                                     FROM [dbo].[Activity] aTable 
                                     JOIN [dbo].[ActivityType] atTable 
                                     ON aTable.activityTypeId=atTable.id
+                                    JOIN [dbo].[Pup] pTable
+                                    ON aTable.pupId=pTable.id
+                                    JOIN [dbo].[User] uTable
+                                    ON aTable.userId=uTable.id
+                                    JOIN [dbo].[House] hTable
+                                    ON hTable.id=aTable.houseId
                                     WHERE aTable.id = @ActivityId
                                         ";
 
@@ -277,8 +289,29 @@ namespace pupper_back_end_api.Repositories
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("activityId")),
                                 PupId = reader.GetInt32(reader.GetOrdinal("pupId")),
+                                Pup = new Pup()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("pupId")),
+                                    OwnerId = reader.GetInt32(reader.GetOrdinal("pupOwnerId")),
+                                    HouseId = reader.GetInt32(reader.GetOrdinal("houseId")),
+                                    Name = reader.GetString(reader.GetOrdinal("pupName"))
+                                },
                                 UserId = reader.GetInt32(reader.GetOrdinal("userId")),
+                                User = new User()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("userId")),
+                                    FirebaseId = "hidden",
+                                    Email = "hidden",
+                                    FirstName = reader[(reader.GetOrdinal("firstName"))] == DBNull.Value ? null : reader.GetString(reader.GetOrdinal("firstName")),
+                                    LastName = reader[(reader.GetOrdinal("lastName"))] == DBNull.Value ? null : reader.GetString(reader.GetOrdinal("lastName"))
+                                },
                                 HouseId = reader.GetInt32(reader.GetOrdinal("houseId")),
+                                House = new House()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("houseId")),
+                                    HouseOwnerId = reader.GetInt32(reader.GetOrdinal("houseOwnerId")),
+                                    Name = reader.GetString(reader.GetOrdinal("houseName"))
+                                },
                                 ActivityTypeId = reader.GetInt32(reader.GetOrdinal("activityTypeId")),
                                 ActivityType = new ActivityType()
                                 {

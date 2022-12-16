@@ -4,7 +4,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }) {
+function EditPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }) {
   const [houseList, setHouseList] = useState(null);
   const [pupName, setPupName] = useState(null);
   const [pupHouse, setPupHouse] = useState(houseSelected !== null ? houseSelected : null);
@@ -98,4 +98,4 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }
   return <></>;
 }
 
-export default AddPupModal;
+export default EditPupModal;

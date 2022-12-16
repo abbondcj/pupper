@@ -12,6 +12,7 @@ function Profile({ authenticatedUser }) {
   const [showAddHomeModal, setShowAddHomeModal] = useState(false);
   const [houseAdded, setNewHouseAdded] = useState(false);
   const [profileEdited, setProfileEdited] = useState(false);
+  const [editsSubmitted, setEditsSubmitted] = useState(false);
   const userEmail = authenticatedUser.email;
   const submitEdits = () => {
     const updatedUser = {
@@ -27,7 +28,8 @@ function Profile({ authenticatedUser }) {
     } else {
       UserApi.UpdateUser(authenticatedUser.id, updatedUser, authenticatedUser.Aa)
         .then(() => {
-          window.location.reload();
+          setEditsSubmitted(true);
+          setProfileEdited(false);
         });
     }
   };
@@ -38,7 +40,8 @@ function Profile({ authenticatedUser }) {
         .then((data) => {
           setHouseList(data);
         });
-    }, [houseAdded],
+      setEditsSubmitted(false);
+    }, [houseAdded, editsSubmitted],
   );
 
   return (

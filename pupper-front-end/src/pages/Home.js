@@ -16,7 +16,6 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
   const [showViewDetailModal, setShowViewDetailModal] = useState(false);
   const [showAddPupModal, setShowAddPupModal] = useState(false);
   const [houseToAddPup, setHousetoAddPup] = useState(null);
-  const [newHouseAdded, setNewHouseAdded] = useState(false);
   const [houseToEdit, setHouseToEdit] = useState(null);
   const [houseToView, setHouseToView] = useState(null);
   const history = useHistory();
@@ -36,6 +35,9 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
                   data.map((house, index) => {
                     if (house.id === authenticatedUser.primaryHouseId) {
                       setPrimaryHouse(house);
+                      if (data[0].id !== house.id) {
+                        nonPrimaryHouseList.push(data[0]);
+                      }
                       PupsApi.GetPupsByHouseId(house.id, authenticatedUser.Aa)
                         .then((data) => {
                           setPrimaryPups(data);
@@ -51,7 +53,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
             }
           }
         );
-    }, [newHouseAdded],
+    }, [],
   );
   
   return (
@@ -78,9 +80,9 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
       </div>
       <div>
         <button onClick={() => { setShowAddHouseModal(true); }}>Add Home</button>
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} newPupAdded={setNewHouseAdded} houseSelected={houseToAddPup} />
-        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} newHouseAdded={setNewHouseAdded} />
-        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} newHouseAdded={setNewHouseAdded} houseId={houseToEdit} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} houseSelected={houseToAddPup} showHomeDetail={setShowViewDetailModal} />
+        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
+        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} houseId={houseToEdit} setShowDetail={setShowViewDetailModal} />
         <HomeDetailModal user={authenticatedUser} show={showViewDetailModal} setShowModal={setShowViewDetailModal} houseId={houseToView} setHomeToEdit={setHouseToEdit} showEditModal={setShowEditHouseModal} houseToAddPup={setHousetoAddPup} showAddPup={setShowAddPupModal} />
       </div>
     </div>

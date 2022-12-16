@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table';
 import HouseApi from '../api/HouseApi';
 import ActivityApi from '../api/ActivityApi';
 import PupsApi from '../api/PupsApi';
+import ActivityDetailModal from './ActivityDetailModal';
+import EditActivityDetailModal from './EditActivityDetailModal';
 // TO DO -- Set up filters, sorting capabilities
 //       -- Manage filters in state, set up props to be passed in for pre-filtering
 
@@ -12,6 +14,9 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
   const [pupList, setPupList] = useState([]);
   const [pupFilter, setPupFilter] = useState(pupPreFilter !== null ? pupPreFilter : 0);
   const [houseFilter, setHouseFilter] = useState(housePreFilter !== null ? housePreFilter : 0);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [activityDetailId, setActivityDetailId] = useState(null);
+  const [showEditActivityModal, setShowEditActivityModal] = useState(false);
 
   useEffect(
     () => {
@@ -76,8 +81,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
             <th itemScope="col">Pup</th>
             <th itemScope="col">House</th>
             <th itemScope="col">Activity</th>
-            <th itemScope="col">Human</th>
-            <th itemScope="col" aria-sort="descending">Date/Time</th>
+            <th itemScope="col">Date/Time</th>
             <th itemScope="col">Detail</th>
           </tr>
         </thead>
@@ -91,10 +95,9 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                   <td>{activity.pup.name}</td>
                   <td>{activity.house.name}</td>
                   <td>{activity.activityType.name}</td>
-                  <td>{activity.user.firstName} {activity.user.lastName}</td>
                   <td>{activity.dateTime}</td>
                   <td>
-                    <button value={activity.id} type="submit">Details</button>
+                    <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                   </td>
                 </tr>
               );
@@ -109,10 +112,9 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                     <td>{activity.pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.user.firstName} {activity.user.lastName}</td>
                     <td>{activity.dateTime}</td>
                     <td>
-                      <button value={activity.id} type="submit">Details</button>
+                      <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
                   </tr>
                 );
@@ -128,10 +130,9 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                     <td>{activity.pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.user.firstName} {activity.user.lastName}</td>
                     <td>{activity.dateTime}</td>
                     <td>
-                      <button value={activity.id} type="submit">Details</button>
+                      <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
                   </tr>
                 );
@@ -144,13 +145,12 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                 return (
                   <tr key={activity.id} className="table-secondary" itemScope="row">
                     <td><b>{index + 1}</b></td>
-                    <td>{activity.pup.name}</td>
+                    <td>{activity.Pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.user.firstName} {activity.user.lastName}</td>
                     <td>{activity.dateTime}</td>
                     <td>
-                      <button value={activity.id} type="submit">Details</button>
+                      <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
                   </tr>
                 );
@@ -168,6 +168,8 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
           }
         </tbody>
       </Table>
+      <ActivityDetailModal show={showDetailsModal} authdUser={user} setShowModal={setShowDetailsModal} activityId={activityDetailId} setActivityId={setActivityDetailId} setShowEditModal={setShowEditActivityModal} />
+      <EditActivityDetailModal authdUser={user} show={showEditActivityModal} setShowModal={setShowEditActivityModal} activityEditId={activityDetailId} houses={houseList} pups={pupList} setShowDetails={setShowDetailsModal} />
     </div>
   );
 }
