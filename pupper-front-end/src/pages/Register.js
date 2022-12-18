@@ -19,7 +19,7 @@ function Register({ newUser }) {
         username: updatedUsername
     }
     if (updatedUser.firebaseId == null || updatedUser.email == null || updatedUser.firstName == null || updatedUser.lastName == null || updatedUser.username == null) {
-      console.log("Null detected");
+      window.alert("All fields must have values")
     } else {
       UserApi.UpdateUser(newUser.id, updatedUser, newUser.Aa)
       .then(() => {

@@ -6,13 +6,12 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
-import { signIn } from '../utils/auth';
 import Logo from '../assets/pupper-logo.png';
 
 export default function Banner({ showLogin, register }) {
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="x2">
         <Toolbar disableGutters>
           <Box
             component="img"
@@ -48,7 +47,7 @@ export default function Banner({ showLogin, register }) {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               '&:hover': {
                 color: 'white',
@@ -74,7 +73,7 @@ export default function Banner({ showLogin, register }) {
                 ? <IconButton></IconButton> 
                 : showLogin 
                 ? <IconButton href="/Login" >Login</IconButton> 
-                : <IconButton onClick={signIn}>Register</IconButton>
+                : <IconButton href="/Register">Register</IconButton>
               }
             </Tooltip>
           </Box>

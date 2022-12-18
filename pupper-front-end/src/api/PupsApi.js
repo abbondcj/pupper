@@ -58,6 +58,15 @@ const PupsApi = {
       body: JSON.stringify(pup),
     });
   },
+  DeletePup: (id, token) => {
+    fetch(`https://localhost:7176/Pup/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
 };
 
 export default PupsApi;

@@ -38,7 +38,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
             setPupList(data);
           })
       }
-    }, [show]
+    }, [show, showAddPup, houseId]
   );
 
   if (show) {
@@ -55,22 +55,12 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
         <Modal.Body className="modal__body">
           <div>
             <h3>Details</h3>
-            <p>Name: {homeName}</p>
-            {
-              address1 !== null ? <p>Address 1: {address1}</p> : <></>
-            }
-            {
-              address2 !== null ? <p>Address 2: {address2}</p> : <></>
-            }
-            {
-              city !== null ? <p>City: {city}</p> : <></>
-            }
-            {
-              state !== null ? <p>State: {state}</p> : <></>
-            }
-            {
-              zip !== null ? <p>Zip: {zip}</p> : <></>
-            }
+            <p><b>Name: </b>{homeName || 'None'}</p>
+            <p><b>Address 1: </b>{address1 || 'None'}</p>
+            <p><b>Address 2: </b>{address2 || 'None'}</p>
+            <p><b>City: </b>{city || 'None'}</p>
+            <p><b>State: </b>{state || 'None'}</p>
+            <p><b>Zip: </b>{zip || 'None'}</p>
           </div>
           <div>
             <h3>Pups</h3>

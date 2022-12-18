@@ -14,7 +14,6 @@ namespace pupper_back_end_api.Models
         [Required, MaxLength(40)]
         public string? Breed { get; set; }
         public int? Gender { get; set; }
-        public int? AgeYears { get; set; }
-        public int? AgeMonths { get; set; }
+        public DateTime? Birthday { get; set; }
     }
 }

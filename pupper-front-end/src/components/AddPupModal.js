@@ -4,14 +4,13 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }) {
+function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, houseToAddPup }) {
   const [houseList, setHouseList] = useState(null);
   const [pupName, setPupName] = useState(null);
-  const [pupHouse, setPupHouse] = useState(houseSelected !== null ? houseSelected : null);
+  const [pupHouse, setPupHouse] = useState(null);
   const [pupBreed, setPupBreed] = useState(null);
   const [pupGender, setPupGender] = useState(null);
-  const [pupAgeYears, setPupAgeYears] = useState(null);
-  const [pupAgeMonths, setPupAgeMonths] = useState(null);
+  const [pupBirthday, setPupBirthday] = useState(null);
   const ownerId = user.id;
   // const token = user.Aa;
   const addPup = () => {
@@ -22,39 +21,43 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }
       name: pupName,
       breed: pupBreed,
       gender: pupGender,
-      ageYears: parseInt(pupAgeYears == NaN ? null : pupAgeYears),
-      ageMonths: parseInt(pupAgeMonths == NaN ? null : pupAgeMonths)
+      birthday: pupBirthday
     }
-    if (newPup.name == null || newPup.ownerId == null || newPup.breed == null ) {
-      window.alert("House and Name must have values");
+    if (newPup.name == null || newPup.name == '' || newPup.ownerId == null || newPup.breed == null || newPup.breed == '' || newPup.houseId == 0 ) {
+      window.alert("House, Name, and Breed must have values");
+      setShowModal(true)
     } else {
       PupsApi.AddPup(newPup, user.Aa)
-      setShowModal(false);
+      if (houseSelected !== 0) {
+        showHomeDetail(true);
+      }
     }
   };
 
   const cancelAddPup = () => {
-    setHouseList(null);
     setPupName(null);
     setPupHouse(null);
     setPupBreed(null);
     setPupGender(null);
-    setPupAgeYears(null);
-    setPupAgeMonths(null);
+    setPupBirthday(null);
     setShowModal(false);
-    if (houseSelected !== null) {
+    if (houseSelected !== 0) {
       showHomeDetail(true);
     }
   };
 
   useEffect(
     () => {
+      if (houseSelected !== 0) {
+        setPupHouse(houseSelected)
+      } else {
+        setPupHouse(0);
+      }
       HouseApi.GetHousesByUserId(user.id, user.Aa)
         .then((data) => {
           setHouseList(data);
         });
-      setPupHouse(houseSelected);
-    }, [show]
+    }, [houseSelected]
   );  
 
   if (show) {
@@ -74,21 +77,21 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail }
             {/* eslint-disable */}
             <input name="pupName" placeholder="Name" onChange={(e) => { setPupName(e.target.value); }} /><br></br>
             {
-                houseSelected !== null 
-                ? <><label htmlFor="houseSelect">House:</label>{houseList.map((house) => { if (house.id == houseSelected) { return (<input key={house.id} disabled value={house.name} placeholder={house.name} />)}})}<br></br></>
-                : <><label>House:</label><select onChange={(e) => { setPupHouse(parseInt(e.target.value)); }}><option value={0}>Select a house</option>{ houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>) }</select><br></br></>
+                houseList
+                ? houseSelected !== 0 
+                  ? <><label htmlFor="houseSelect">House:</label>{houseList.map((house) => { if (house.id == houseSelected) { return (<input key={house.id} disabled value={house.name} placeholder={house.name} />)}})}<br></br></>
+                  : <><label>House:</label><select onChange={(e) => { setPupHouse(parseInt(e.target.value)); }}><option value={0}>Select a house</option>{ houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>) }</select><br></br></>
+                : <></>
             }
             <label htmlFor="breed">Breed:</label>
             <input name="breed" placeholder="Breed" onChange={(e) => { setPupBreed(e.target.value); }} /><br></br>
             <label htmlFor="gender">Gender:</label><br></br>
             <p>M</p><input value={1} onClick={(e) => { setPupGender(parseInt(e.target.value)); }} type="radio" name="genderSelect" />
             <p>F</p><input value={2} onClick={(e) => { setPupGender(parseInt(e.target.value)); }} type="radio" name="genderSelect" /><br></br>
-            <label htmlFor="pupAgeYears">Age years:</label>
-            <input type="number" name="pupAgeYears" placeholder="Age years" onChange={(e) => { setPupAgeYears(e.target.value); }} /><br></br>
-            <label htmlFor="pupAgeMonths">Age months:</label>
-            <input type="number" name="pupAgeMonths" placeholder="Age months" onChange={(e) => { setPupAgeMonths(e.target.value); }} />
+            <label htmlFor="pupBirthday">Birthday:</label>
+            <input type="date" name="pupBirthday" placeholder="Birthday" onChange={(e) => { setPupBirthday(e.target.value); }} /><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { addPup(); }}>Add Pup</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { setShowModal(false); addPup();  }}>Add Pup</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddPup}>Cancel</button>
         </Modal.Body>
       </Modal>

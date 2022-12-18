@@ -7,8 +7,9 @@ function FilteredPups({ pupList, filter, auth, setFilteredPups, setPuptoEdit, sh
 
   useEffect(
     () => {
+      setPups(null)
       const result = [];
-      if (filter === '0') {
+      if (filter === 0) {
         setPups(pupList)
       } else {
         pupList.map((pup) => {
@@ -18,7 +19,7 @@ function FilteredPups({ pupList, filter, auth, setFilteredPups, setPuptoEdit, sh
         });
         setPups(result);
       }
-    }, [pupList]
+    }, [pupList, filter, showPupEdit]
   )
 
   return (

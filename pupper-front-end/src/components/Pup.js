@@ -13,15 +13,16 @@ function Pup({ pup, authenticatedToken, setFilter, editPup, showEditPup }) {
         .then((data) => {
           setHouse(data);
         });
-    }, [],
+    }, [pup],
   );
 
   return (
     <div>
       <h3>{pup.name}</h3>
-      <p>{house.name}</p>
-      <p>{pup.breed}</p>
-      <p>{pup.gender === 1 ? 'Male' : 'Female'}</p>
+      <p><b>House: </b>{house.name}</p>
+      <p><b>Breed: </b>{pup.breed}</p>
+      <p><b>Gender: </b>{pup.gender === 1 || pup.gender ===2 ? pup.gender === 1 ? 'Male' : 'Female' : 'None listed'}</p>
+      <p><b>Birthday: </b>{pup.birthday !== null ? pup.birthday.substring(0, 10) : 'None listed'}</p>
       <button onClick={(e) => { editPup(parseInt(e.target.value)); showEditPup(true); }} type="submit" value={pup.id || ''}>Edit</button>
       <button type="submit" value={pup.id} onClick={(e) => { setFilter(e.target.value); history.push('/Activity'); }}>View Activity</button>
     </div>

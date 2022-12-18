@@ -10,9 +10,7 @@ function Profile({ authenticatedUser }) {
   const [userPrimaryHouse, setPrimaryHouse] = useState(authenticatedUser.primaryHouseId);
   const [houseList, setHouseList] = useState(null);
   const [showAddHomeModal, setShowAddHomeModal] = useState(false);
-  const [houseAdded, setNewHouseAdded] = useState(false);
   const [profileEdited, setProfileEdited] = useState(false);
-  const [editsSubmitted, setEditsSubmitted] = useState(false);
   const userEmail = authenticatedUser.email;
   const submitEdits = () => {
     const updatedUser = {
@@ -28,8 +26,8 @@ function Profile({ authenticatedUser }) {
     } else {
       UserApi.UpdateUser(authenticatedUser.id, updatedUser, authenticatedUser.Aa)
         .then(() => {
-          setEditsSubmitted(true);
           setProfileEdited(false);
+          window.location.reload();
         });
     }
   };
@@ -40,50 +38,53 @@ function Profile({ authenticatedUser }) {
         .then((data) => {
           setHouseList(data);
         });
-      setEditsSubmitted(false);
-    }, [houseAdded, editsSubmitted],
+    }, [showAddHomeModal],
   );
 
   return (
     /* eslint-disable */
-    <div>
-      <label htmlFor="firstName">First Name:</label>
-      <input className="firstName" onChange={(e) => { setFirstName(e.target.value); setProfileEdited(true); }} value={userFirstName} placeholder="First Name" /><br></br>
-      <label htmlFor="lastName">Last Name:</label>
-      <input className="lastName" onChange={(e) => { setLastName(e.target.value); setProfileEdited(true); }} value={userLastName} placeholder="Last Name" /><br></br>
-      <label htmlFor="username">Username:</label>
-      <input className="username" onChange={(e) => { setUsername(e.target.value); setProfileEdited(true); }} value={userUsername} placeholder="Username" /><br></br>
-      <label htmlFor="email">Email:</label>
-      <input className="email" disabled value={userEmail} /><br></br>
-      <label htmlFor="primaryHouse">Primary House:</label>
-        {
-          userPrimaryHouse !== null && houseList !== null
-            ? <>
-                <select className="primaryHouse" onChange={(e) => { setPrimaryHouse(parseInt(e.target.value)); setProfileEdited(true); }} value={userPrimaryHouse || ''}>
-                  {
-                    houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)
-                  }
-                </select>
-              </>
-            : userPrimaryHouse == null && houseList !== null
+    <>
+      <div>
+        <h1>My Profile</h1>
+      </div>
+      <div>
+        <label htmlFor="firstName">First Name:</label>
+        <input className="firstName" onChange={(e) => { setFirstName(e.target.value); setProfileEdited(true); }} value={userFirstName} placeholder="First Name" /><br></br>
+        <label htmlFor="lastName">Last Name:</label>
+        <input className="lastName" onChange={(e) => { setLastName(e.target.value); setProfileEdited(true); }} value={userLastName} placeholder="Last Name" /><br></br>
+        <label htmlFor="username">Username:</label>
+        <input className="username" onChange={(e) => { setUsername(e.target.value); setProfileEdited(true); }} value={userUsername} placeholder="Username" /><br></br>
+        <label htmlFor="email">Email:</label>
+        <input className="email" disabled value={userEmail} /><br></br>
+        <label htmlFor="primaryHouse">Primary House:</label>
+          {
+            userPrimaryHouse !== null && houseList !== null
               ? <>
                   <select className="primaryHouse" onChange={(e) => { setPrimaryHouse(parseInt(e.target.value)); setProfileEdited(true); }} value={userPrimaryHouse || ''}>
-                    <option value={0}>Select a primary house</option>
                     {
                       houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)
                     }
                   </select>
                 </>
-              : houseList == null
-                ? <><p>No homes</p><button type="submit" onClick={() => { setShowAddHomeModal(true); }}>Add home</button></>
-                : <></>
-        }
-        {
-          profileEdited == true ? <><br></br><button type="submit" onClick={() => { submitEdits(); }}>Submit Edits</button></> : <></>
-        }
-      <AddHomeModal user={authenticatedUser} show={showAddHomeModal} setShowModal={setShowAddHomeModal} newHouseAdded={setNewHouseAdded} />
-    </div>
-
+              : userPrimaryHouse == null && houseList !== null
+                ? <>
+                    <select className="primaryHouse" onChange={(e) => { setPrimaryHouse(parseInt(e.target.value)); setProfileEdited(true); }} value={userPrimaryHouse || ''}>
+                      <option value={0}>Select a primary house</option>
+                      {
+                        houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)
+                      }
+                    </select>
+                  </>
+                : houseList == null
+                  ? <><p>No homes</p><button type="submit" onClick={() => { setShowAddHomeModal(true); }}>Add home</button></>
+                  : <></>
+          }
+          {
+            profileEdited == true ? <><br></br><button type="submit" onClick={() => { submitEdits(); }}>Submit Edits</button></> : <p>--Type to edit--</p>
+          }
+        <AddHomeModal user={authenticatedUser} show={showAddHomeModal} setShowModal={setShowAddHomeModal} />
+      </div>
+    </>
   );
 }
 

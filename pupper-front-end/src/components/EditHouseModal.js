@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import ActivityApi from '../api/ActivityApi';
 import HouseApi from '../api/HouseApi';
+import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
-  const [homeName, setHomeName] = useState();
+function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHomeToEdit }) {
+  const [homeName, setHomeName] = useState(null);
+  const [housePupList, setHousePupList] = useState(null);
   const [address1, setAddress1] = useState(null);
   const [address2, setAddress2] = useState(null);
   const [city, setCity] = useState(null);
@@ -24,11 +27,13 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
       state: state,
       zip: zip
     }
-    if (newHome.name == null || newHome.houseOwnerId == null || newHome.address1 == null || newHome.city == null || newHome.state == null || newHome.zip == null) {
+    if (newHome.name == null || newHome.houseOwnerId == null) {
       window.alert("Please enter a house name")
     } else {
       HouseApi.EditHouse(newHome, houseId, user.Aa);
+      setEditsMade(false);
       setShowModal(false);
+      setHomeToEdit(null);
       setShowDetail(true);
     }
   };
@@ -39,8 +44,33 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
     setAddress2(null);
     setCity(null);
     setZip(null);
+    setEditsMade(false);
     setShowModal(false);
     setShowDetail(true);
+  }
+
+  const deleteHome = (id) => {
+    const result = window.confirm("This will delete all associated pups and activities, are you sure?")
+    if (result) {
+      if (housePupList !== null) {
+        housePupList.map((pup) => {
+          ActivityApi.GetActivitiesByPupId(pup.id, user.Aa)
+          .then((activities) => {
+            if (activities !== null) {
+              activities.map((activity) => {
+                ActivityApi.DeleteActivity(activity.id, user.Aa)
+              })
+            }
+          })
+          PupsApi.DeletePup(parseInt(pup.id), user.Aa)
+        });
+        HouseApi.DeleteHouse(id, user.Aa);
+        setHomeToEdit(null);
+      } else {
+        HouseApi.DeleteHouse(id, user.Aa)
+        setHomeToEdit(null);
+      }
+    }
   }
 
   useEffect(
@@ -55,8 +85,12 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
             setState(data.state);
             setZip(data.zip);
         });
+        PupsApi.GetPupsByHouseId(houseId, user.Aa)
+          .then((data) => {
+            setHousePupList(data);
+          })
       }
-    }, [show]
+    }, [show, houseId]
   );
 
   if (show) {
@@ -90,6 +124,11 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail }) {
             editsMade
               ? <button type="submit" className="btn__btn-primary" onClick={() => { editHouse(); }}>Submit Edits</button>
               : <></>
+          }
+          {
+            editsMade
+              ? <></>
+              : <button type="submit" value={houseId} onClick={(e) => { deleteHome(parseInt(e.target.value)); setShowModal(false); }}>Delete</button>
           }
           <button type="submit" className="btn__btn-primary" onClick={cancelEditHome}>Cancel</button>
         </Modal.Body>
