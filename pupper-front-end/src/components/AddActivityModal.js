@@ -6,16 +6,16 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) {
-  const [activityPupId, setPupId] = useState(pupChosen !== undefined ? pupChosen : null);
-  const [activityHouseId, setHouseId] = useState(houseChosen !== undefined ? houseChosen : null);
+function AddActivityModal({ show, user, setShowModal }) {
+  const [activityPupId, setPupId] = useState(null);
+  const [activityHouseId, setHouseId] = useState(null);
   const [houseList, setHouseList] = useState(null);
   const [pupList, setPupList] = useState(null);
   const [houseName, setHouseName] = useState(null);
   const [typeId, setActivityTypeId] = useState(null);
-  const [activityUserId, setActivityUserId] = useState(user.id);
   const [activityDateTime, setDateTime] = useState(null);
   const [activityDescription, setDescription] = useState(null);
+  const activityUserId = user.id;
   const addActivity = () => {
     const newActivity = {
       pupId: activityPupId,
@@ -25,12 +25,12 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
       dateTime: activityDateTime,
       description: activityDescription
     };
-    if (newActivity.pupId == null || newActivity.activityTypeId == null || newActivity.dateTime == null) {
+    if (newActivity.pupId == null || newActivity.activityTypeId == null || newActivity.dateTime == null || newActivity.userId == null) {
       window.alert("Pup, Activity, and Date/Time must be selected");
     } else {
       ActivityApi.AddActivity(newActivity, user.Aa)
-      setShowModal(false);
-      window.location.reload();
+      setHouseId(null);
+      setHouseName(null);
     }
   };
 
@@ -55,7 +55,6 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
     setPupList(null);
     setHouseName(null);
     setActivityTypeId(null);
-    setActivityUserId(null);
     setDateTime(null);
     setDescription(null);
     setShowModal(false);
@@ -67,7 +66,7 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
         .then((data) => {
           setHouseList(data);
         });
-    }, [],
+    }, [show],
   );
 
   useEffect(
@@ -76,7 +75,7 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
         .then((data) => {
           setPupList(data);
         });
-    }, []
+    }, [show]
   );
 
   if (show) {
@@ -97,7 +96,7 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
                 ? <><label htmlFor="pupSelect">Pup:</label><select onChange={(e) => { setPupInfo(e.target.value); }}><option value={0}>Select a pup</option>{pupList.map((pup) => <option key={pup.id} value={`${pup.id}-${pup.houseId}`}>{pup.name}</option>)}</select><br></br></>
                 : <button type="submit">Add Pup</button>
             }
-            {houseName == null ? <><label htmlFor="houseSelect">House:</label><select className="houseSelect" onChange={(e) => { setHouseId(parseInt(e.target.value)); }}>{houseList.map((house) => <option key={house.id} value={house.id}>{house.name}</option>)}</select><br></br></> : <p>House: {houseName}</p>}
+            {houseName == null ? <></> : <p>House: {houseName}</p>}
             {
               <>
                 <label htmlFor="houseSelect">Activity:</label>
@@ -114,7 +113,7 @@ function AddActivityModal({ show, user, setShowModal, pupChosen, houseChosen }) 
             <label htmlFor="description">Description:</label><br></br>
             <textarea className="description" placeholder="Description" onChange={(e) => { setDescription(e.target.value); }}/><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { addActivity(); }}>Add Activity</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { addActivity(); setShowModal(false); }}>Add Activity</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddPup}>Cancel</button>
         </Modal.Body>
       </Modal>

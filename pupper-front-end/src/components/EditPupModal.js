@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import ActivityApi from '../api/ActivityApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
@@ -8,8 +9,7 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
   const [pupHouseId, setPupHouseId] = useState(null);
   const [pupBreed, setPupBreed] = useState(null);
   const [pupGender, setPupGender] = useState(null);
-  const [pupAgeYears, setPupAgeYears] = useState(null);
-  const [pupAgeMonths, setPupAgeMonths] = useState(null);
+  const [pupBirthday, setPupBirthday] = useState(null);
   const [editsMade, setEditsMade] = useState(false);
   const ownerId = user.id;
   // const token = user.Aa;
@@ -21,27 +21,44 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
       name: pupName,
       breed: pupBreed,
       gender: pupGender,
-      ageYears: parseInt(pupAgeYears == NaN ? null : pupAgeYears),
-      ageMonths: parseInt(pupAgeMonths == NaN ? null : pupAgeMonths)
+      birthday: pupBirthday
     }
     if (editedPup.name == '' || editedPup.ownerId == null || editedPup.breed == '' ) {
       window.alert("Name and Breed must have values");
     } else {
       PupsApi.EditPup(editedPup, pupSelected, user.Aa)
-      setShowModal(false);
+      setEditsMade(false);
+      setPupSelected(null);
     }
   };
 
   const cancelEditPup = () => {
+    setEditsMade(false);
     setPupName(null);
     setPupHouseId(null);
     setPupBreed(null);
     setPupGender(null);
-    setPupAgeYears(null);
-    setPupAgeMonths(null);
+    setPupBirthday(null);
     setPupSelected(null);
     setShowModal(false);
   };
+
+  const deletePup = (id) => {
+    const result = window.confirm("This will delete all associated activities, are you sure?")
+    if (result) {
+      ActivityApi.GetActivitiesByPupId(id, user.Aa)
+        .then((data) => {
+          if (data !== null) {
+            data.map((activity) => {
+              ActivityApi.DeleteActivity(activity.id, user.Aa);
+            });
+          }
+        });
+      PupsApi.DeletePup(id, user.Aa);
+      setEditsMade(false);
+      setPupSelected(null);
+    }
+  }
 
   useEffect(
     () => {
@@ -52,8 +69,12 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
             setPupHouseId(data.houseId);
             setPupBreed(data.breed);
             setPupGender(data.gender);
-            setPupAgeYears(data.ageYears);
-            setPupAgeMonths(data.ageMonths);
+            if (data.birthday !== null) {
+              const [birthday,] = data.birthday.split("T");
+              setPupBirthday(birthday);
+            } else {
+              setPupBirthday(null);
+            }
           });
       }
     }, [show]
@@ -101,15 +122,18 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
                         <p>F</p><input value={2} onClick={(e) => { setPupGender(parseInt(e.target.value)); setEditsMade(true); }} type="radio" name="genderSelect" /><br></br>
                       </>
             }
-            <label htmlFor="pupAgeYears">Age years:</label>
-            <input value={pupAgeYears || ''} type="number" name="pupAgeYears" placeholder="Age years" onChange={(e) => { setPupAgeYears(e.target.value); setEditsMade(true); }} /><br></br>
-            <label htmlFor="pupAgeMonths">Age months:</label>
-            <input value={pupAgeMonths || ''} type="number" name="pupAgeMonths" placeholder="Age months" onChange={(e) => { setPupAgeMonths(e.target.value); setEditsMade(true); }} />
+            <label htmlFor="pupBirthday">Birthday:</label>
+            <input value={pupBirthday || ''} type="date" name="pupBirthday" placeholder="Birthday" onChange={(e) => { setPupBirthday(e.target.value); setEditsMade(true); }} /><br></br>
           </div>
           {
             editsMade
-              ? <button type="submit" className="btn__btn-primary" onClick={() => { editPup(); }}>Edit Pup</button>
+              ? <button type="submit" className="btn__btn-primary" onClick={() => { editPup(); setShowModal(false); }}>Submit Edits</button>
               : <></>
+          }
+          {
+            editsMade
+              ? <></>
+              : <button type="submit" value={pupSelected} onClick={(e) => { deletePup(e.target.value); setShowModal(false); }}>Delete</button>
           }
           <button type="submit" className="btn__btn-primary" onClick={cancelEditPup}>Cancel</button>
         </Modal.Body>

@@ -25,6 +25,9 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
       HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
         .then(
           (data) => {
+            setPrimaryHouse(null);
+            setPrimaryPups(null);
+            setNonPrimaryHouses(null);
             if (data !== null) {
               setPrimaryHouse(data[0]);
               PupsApi.GetPupsByHouseId(data[0].id, authenticatedUser.Aa)
@@ -53,7 +56,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
             }
           }
         );
-    }, [showAddHouseModal, showViewDetailModal],
+    }, [showEditHouseModal, showAddHouseModal, showAddPupModal, houseToAddPup],
   );
   
   return (
@@ -61,10 +64,10 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
       <h1>Home</h1>
       <div>
         {
-          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p>{primaryHouse.address1}</p><p>{primaryHouse.address2}</p><p>{primaryHouse.state + `, ` + primaryHouse.zip}</p></div> : <p>No houses</p>
+          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p><b>Address 1: </b>{primaryHouse.address1 || 'None'}</p><p><b>Address 2: </b>{primaryHouse.address2 || 'None'}</p><p><b>City/State: </b>{primaryHouse.city !== null ? primaryHouse.city : 'None'} {primaryHouse.state !== null ? `, ` + primaryHouse.state : ', None'}</p><p><b>Zip: </b>{primaryHouse.zip || 'None'}</p></div> : <p>No houses</p>
         }
         {
-          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { setHousetoAddPup(parseInt(e.target.value)); setShowAddPupModal(true); }}>Add Pup</button> : ''
+          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { console.log(e.target.value); setHousetoAddPup(e.target.value); setShowAddPupModal(true); setHouseToView(parseInt(e.target.value)); }}>Add Pup</button> : ''
         }
         {
           primaryHouse != null
@@ -80,9 +83,9 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
       </div>
       <div>
         <button onClick={() => { setShowAddHouseModal(true); }}>Add Home</button>
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} houseSelected={houseToAddPup} showHomeDetail={setShowViewDetailModal} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} houseSelected={houseToAddPup} houseToAddPup={setHousetoAddPup} showHomeDetail={setShowViewDetailModal} />
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
-        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} houseId={houseToEdit} setShowDetail={setShowViewDetailModal} />
+        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} setHomeToEdit={setHouseToEdit} houseId={houseToEdit} setShowDetail={setShowViewDetailModal} />
         <HomeDetailModal user={authenticatedUser} show={showViewDetailModal} setShowModal={setShowViewDetailModal} houseId={houseToView} setHomeToEdit={setHouseToEdit} showEditModal={setShowEditHouseModal} houseToAddPup={setHousetoAddPup} showAddPup={setShowAddPupModal} />
       </div>
     </div>

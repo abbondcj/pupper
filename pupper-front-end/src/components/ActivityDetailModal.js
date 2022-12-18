@@ -42,7 +42,7 @@ function ActivityDetailModal({ show, authdUser, setShowModal, activityId, setAct
               <p><b>Pup: </b>{activityObj.pup.name}</p>
               <p><b>House: </b>{activityObj.house.name}</p>
               <p><b>Activity: </b>{activityObj.activityType.name}</p>
-              <p><b>Date/Time: </b>{activityObj.dateTime}</p>
+              <p><b>Date/Time: </b>{activityObj.dateTime.substring(0, 16).replace("T", " || ")}</p>
               <p><b>Human: </b>{activityObj.user.firstName + ` ` + activityObj.user.lastName}</p>
               <p><b>Description: </b>{activityObj.description !== null ? activityObj.description : `None`}</p>
             </div>

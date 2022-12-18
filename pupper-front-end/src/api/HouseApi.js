@@ -45,6 +45,15 @@ const HouseApi = {
       body: JSON.stringify(house),
     });
   },
+  DeleteHouse: async (id, token) => {
+    fetch(`https://localhost:7176/House/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
 };
 
 export default HouseApi;

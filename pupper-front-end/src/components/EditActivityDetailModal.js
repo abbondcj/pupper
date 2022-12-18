@@ -4,7 +4,7 @@ import ActivityApi from '../api/ActivityApi';
 import activities from '../api/ActivityList';
 
 /* eslint-disable */
-function EditActivityDetailModal({ show, authdUser, setShowModal, activityEditId, houses, pups, setShowDetails }) {
+function EditActivityDetailModal({ show, authdUser, setShowModal, activityEditId, houses, pups, setShowDetails, setActivityId }) {
   const [typeId, setActivityTypeId] = useState(null);
   const [activityObj, setActivityObj] = useState(null);
   const [editsMade, setEditsMade] = useState(false);
@@ -23,6 +23,12 @@ function EditActivityDetailModal({ show, authdUser, setShowModal, activityEditId
     setShowDetails(true);
   };
 
+  const deleteActivity = (id) => {
+    ActivityApi.DeleteActivity(id, authdUser.Aa);
+    setActivityId(null);
+    setEditsMade(false);
+  }
+
   const submitEdits = () => {
     const editedActivity = {
         pupId: activityPupId,
@@ -36,6 +42,7 @@ function EditActivityDetailModal({ show, authdUser, setShowModal, activityEditId
         window.location.alert("Pup, House, Activity Type, and User must have values")
     } else {
         ActivityApi.EditActivity(editedActivity, activityEditId, authdUser.Aa)
+        setEditsMade(false);
         setShowModal(false);
         setShowDetails(true);
     }
@@ -104,15 +111,19 @@ function EditActivityDetailModal({ show, authdUser, setShowModal, activityEditId
                 }
               </select><br></br>
               <label htmlFor="dateTime">Date/Time:</label><br></br>
-              <input value={activityDateTime || ''} type="datetime-local" onChange={(e) => { setDateTime(e.target.value); setEditsMade(true); }} /><br></br>
+              <input value={activityDateTime || ''} type="dateTime-local" onChange={(e) => { setDateTime(e.target.value); setEditsMade(true); }} /><br></br>
               <label htmlFor="description">Description:</label><br></br>
               <textarea value={activityDescription || ''} className="description" placeholder="Description" onChange={(e) => { setDescription(e.target.value); setEditsMade(true); }}/><br></br>
           </div>
-          <button type="submit">Delete</button>
           {
             editsMade
              ? <button onClick={submitEdits} type="submit">Submit Edits</button>
              : <></>
+          }
+          {
+            editsMade
+              ? <></>
+              : <button type="submit" value={activityEditId} onClick={(e) => { deleteActivity(parseInt(e.target.value)); setShowModal(false); }}>Delete</button>
           }
           <button type="submit" className="btn__btn-primary" onClick={cancel}>Cancel</button>
         </Modal.Body>

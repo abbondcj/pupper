@@ -5,10 +5,9 @@ import ActivityApi from '../api/ActivityApi';
 import PupsApi from '../api/PupsApi';
 import ActivityDetailModal from './ActivityDetailModal';
 import EditActivityDetailModal from './EditActivityDetailModal';
-// TO DO -- Set up filters, sorting capabilities
-//       -- Manage filters in state, set up props to be passed in for pre-filtering
 
-function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
+/* eslint-disable */
+function ActivityFilter({ user, pupPreFilter, housePreFilter, showAddActivity }) {
   const [activitiesList, setActivities] = useState(null);
   const [houseList, setHouses] = useState([]);
   const [pupList, setPupList] = useState([]);
@@ -28,13 +27,14 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
         .then((data) => {
           setPupList(data);
         });
-    }, [],
+    }, [showEditActivityModal, showDetailsModal, activityDetailId, showAddActivity],
   );
 
   useEffect(
     () => {
+      setActivities(null);
       /* eslint-disable */
-        let activityCopy = activitiesList == null ? [] : activitiesList;
+        let activityCopy = []
         houseList !== null
           ? houseList.map((house) => {
             ActivityApi.GetActivitiesByHouseId(house.id, user.Aa)
@@ -89,13 +89,14 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
           {
             pupFilter == 0 && houseFilter == 0 && activitiesList !== null ?
             activitiesList.map((activity, index) => {
+              const dateString = activity.dateTime.substring(0, 16).replace("T", " || ")
               return (
                 <tr key={activity.id} className="table-secondary" itemScope="row">
                   <td><b>{index + 1}</b></td>
                   <td>{activity.pup.name}</td>
                   <td>{activity.house.name}</td>
                   <td>{activity.activityType.name}</td>
-                  <td>{activity.dateTime}</td>
+                  <td>{dateString}</td>
                   <td>
                     <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                   </td>
@@ -105,6 +106,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
             : 
             pupFilter !== 0 && houseFilter == 0 && activitiesList !== null ?
             activitiesList.map((activity, index) => {
+              const dateString = activity.dateTime.substring(0, 16).replace("T", " || ")
               if (activity.pup.id == pupFilter) {
                 return (
                   <tr key={activity.id} className="table-secondary" itemScope="row">
@@ -112,7 +114,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                     <td>{activity.pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.dateTime}</td>
+                    <td>{dateString}</td>
                     <td>
                       <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
@@ -123,6 +125,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
             :
             pupFilter == 0 && houseFilter !== 0 && activitiesList !== null?
             activitiesList.map((activity, index) => {
+              const dateString = activity.dateTime.substring(0, 16).replace("T", " || ")
               if (activity.house.id == houseFilter) {
                 return (
                   <tr key={activity.id} className="table-secondary" itemScope="row">
@@ -130,7 +133,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                     <td>{activity.pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.dateTime}</td>
+                    <td>{dateString}</td>
                     <td>
                       <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
@@ -141,14 +144,15 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
             :
             activitiesList !== null ? 
             activitiesList.map((activity, index) => {
+              const dateString = activity.dateTime.substring(0, 16).replace("T", " || ")
               if (activity.pup.id == pupFilter && activity.house.id == houseFilter) {
                 return (
                   <tr key={activity.id} className="table-secondary" itemScope="row">
                     <td><b>{index + 1}</b></td>
-                    <td>{activity.Pup.name}</td>
+                    <td>{activity.pup.name}</td>
                     <td>{activity.house.name}</td>
                     <td>{activity.activityType.name}</td>
-                    <td>{activity.dateTime}</td>
+                    <td>{dateString}</td>
                     <td>
                       <button onClick={(e) => { setActivityDetailId(parseInt(e.target.value)); setShowDetailsModal(true); }} value={activity.id} type="submit">Details</button>
                     </td>
@@ -156,20 +160,12 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter }) {
                 );
               }
             })
-            : <tr>
-              <td>--</td>
-              <td>--</td>
-              <td>--</td>
-              <td>No activity</td>
-              <td>--</td>
-              <td>--</td>
-              <td>--</td>
-            </tr>
+            : <></>
           }
         </tbody>
       </Table>
       <ActivityDetailModal show={showDetailsModal} authdUser={user} setShowModal={setShowDetailsModal} activityId={activityDetailId} setActivityId={setActivityDetailId} setShowEditModal={setShowEditActivityModal} />
-      <EditActivityDetailModal authdUser={user} show={showEditActivityModal} setShowModal={setShowEditActivityModal} activityEditId={activityDetailId} houses={houseList} pups={pupList} setShowDetails={setShowDetailsModal} />
+      <EditActivityDetailModal authdUser={user} show={showEditActivityModal} setShowModal={setShowEditActivityModal} activityEditId={activityDetailId} setActivityId={setActivityDetailId} houses={houseList} pups={pupList} setShowDetails={setShowDetailsModal} />
     </div>
   );
 }

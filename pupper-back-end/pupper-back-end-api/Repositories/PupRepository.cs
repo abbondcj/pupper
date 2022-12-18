@@ -32,10 +32,9 @@ namespace pupper_back_end_api.Repositories
                                         name,
                                         breed,
                                         gender,
-                                        ageYears,
-                                        ageMonths)
+                                        birthday)
                                     OUTPUT INSERTED.ID
-                                    VALUES (@ownerId, @houseId, @name, @breed, @gender, @ageYears, @ageMonths)
+                                    VALUES (@ownerId, @houseId, @name, @breed, @gender, @birthday)
                                        ";
 
                     cmd.Parameters.AddWithValue("@ownerId", pup.OwnerId);
@@ -43,9 +42,7 @@ namespace pupper_back_end_api.Repositories
                     cmd.Parameters.AddWithValue("@name", pup.Name);
                     cmd.Parameters.AddWithValue("@breed", pup.Breed);
                     cmd.Parameters.AddWithValue("@gender", pup.Gender != null ? pup.Gender : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ageYears", pup.AgeYears != null ? pup.AgeYears : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ageMonths", pup.AgeMonths != null ? pup.AgeMonths : DBNull.Value);
-
+                    cmd.Parameters.AddWithValue("@birthday", pup.Birthday != null ? pup.Birthday : DBNull.Value);
                     int id = (int)cmd.ExecuteScalar();
 
                     pup.Id = id;
@@ -87,8 +84,7 @@ namespace pupper_back_end_api.Repositories
                                             name,
                                             breed,
                                             gender,
-                                            ageYears,
-                                            ageMonths
+                                            birthday
                                         FROM [dbo].[Pup]
                                        ";
 
@@ -105,8 +101,7 @@ namespace pupper_back_end_api.Repositories
                                 Name = reader.GetString(reader.GetOrdinal("name")),
                                 Breed = reader.GetString(reader.GetOrdinal("breed")),
                                 Gender = reader[(reader.GetOrdinal("gender"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("gender")),
-                                AgeYears = reader[(reader.GetOrdinal("ageYears"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageYears")),
-                                AgeMonths = reader[(reader.GetOrdinal("ageMonths"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageMonths"))
+                                Birthday = reader[(reader.GetOrdinal("birthday"))] == DBNull.Value ? null : reader.GetDateTime(reader.GetOrdinal("Birthday"))
                             };
                             pups.Add(pup);
                         }
@@ -131,8 +126,7 @@ namespace pupper_back_end_api.Repositories
                                             name,
                                             breed,
                                             gender,
-                                            ageYears,
-                                            ageMonths
+                                            birthday
                                         FROM [dbo].[Pup]
                                         WHERE houseId = @Id
                                        ";
@@ -152,8 +146,7 @@ namespace pupper_back_end_api.Repositories
                                 Name = reader.GetString(reader.GetOrdinal("name")),
                                 Breed = reader.GetString(reader.GetOrdinal("breed")),
                                 Gender = reader[(reader.GetOrdinal("gender"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("gender")),
-                                AgeYears = reader[(reader.GetOrdinal("ageYears"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageYears")),
-                                AgeMonths = reader[(reader.GetOrdinal("ageMonths"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageMonths"))
+                                Birthday = reader[(reader.GetOrdinal("birthday"))] == DBNull.Value ? null : reader.GetDateTime(reader.GetOrdinal("Birthday"))
                             };
                             pups.Add(pup);
                         }
@@ -182,8 +175,7 @@ namespace pupper_back_end_api.Repositories
                                             name,
                                             breed,
                                             gender,
-                                            ageYears,
-                                            ageMonths
+                                            birthday
                                         FROM [dbo].[Pup]
                                         WHERE id = @Id
                                        ";
@@ -202,8 +194,7 @@ namespace pupper_back_end_api.Repositories
                                 Name = reader.GetString(reader.GetOrdinal("name")),
                                 Breed = reader.GetString(reader.GetOrdinal("breed")),
                                 Gender = reader[(reader.GetOrdinal("gender"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("gender")),
-                                AgeYears = reader[(reader.GetOrdinal("ageYears"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageYears")),
-                                AgeMonths = reader[(reader.GetOrdinal("ageMonths"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageMonths"))
+                                Birthday = reader[(reader.GetOrdinal("birthday"))] == DBNull.Value ? null : reader.GetDateTime(reader.GetOrdinal("Birthday"))
                             };
                             return pup;
                         } else
@@ -230,8 +221,7 @@ namespace pupper_back_end_api.Repositories
                                             name,
                                             breed,
                                             gender,
-                                            ageYears,
-                                            ageMonths
+                                            birthday
                                         FROM [dbo].[Pup]
                                         WHERE ownerId = @Id
                                        ";
@@ -251,8 +241,7 @@ namespace pupper_back_end_api.Repositories
                                 Name = reader.GetString(reader.GetOrdinal("name")),
                                 Breed = reader.GetString(reader.GetOrdinal("breed")),
                                 Gender = reader[(reader.GetOrdinal("gender"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("gender")),
-                                AgeYears = reader[(reader.GetOrdinal("ageYears"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageYears")),
-                                AgeMonths = reader[(reader.GetOrdinal("ageMonths"))] == DBNull.Value ? 0 : reader.GetInt32(reader.GetOrdinal("ageMonths"))
+                                Birthday = reader[(reader.GetOrdinal("birthday"))] == DBNull.Value ? null : reader.GetDateTime(reader.GetOrdinal("Birthday"))
                             };
                             pups.Add(pup);
                         }
@@ -281,8 +270,7 @@ namespace pupper_back_end_api.Repositories
                                         name = @name,
                                         breed = @breed,
                                         gender = @gender,
-                                        ageYears = @ageYears,
-                                        ageMonths = @ageMonths
+                                        birthday = @birthday
                                     WHERE Id = @id
                                        ";
                     cmd.Parameters.AddWithValue("@id", id);
@@ -291,9 +279,7 @@ namespace pupper_back_end_api.Repositories
                     cmd.Parameters.AddWithValue("@name", pup.Name);
                     cmd.Parameters.AddWithValue("@breed", pup.Breed);
                     cmd.Parameters.AddWithValue("@gender", pup.Gender != null ? pup.Gender : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ageYears", pup.AgeYears != null ? pup.AgeYears : DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ageMonths", pup.AgeMonths != null ? pup.AgeMonths : DBNull.Value);
-
+                    cmd.Parameters.AddWithValue("@birthday", pup.Birthday != null ? pup.Birthday : DBNull.Value);
                     cmd.ExecuteNonQuery();
                 }
             }

@@ -43,8 +43,7 @@ CREATE TABLE [dbo].[Pup] (
   [name] varchar(40) NOT NULL,
   [breed] varchar(40) NOT NULL,
   [gender] int,
-  [ageYears] int,
-  [ageMonths] int
+  [birthday] dateTime
 )
 GO
 
@@ -92,13 +91,13 @@ GO
 INSERT INTO [dbo].[House] VALUES ('1', 'IMT Apt', '196732', '201 Gillespie Drive', 'Apt 9303','Nashville', 'TN', '37067')
 GO
 --INSERT BASE PUP
-INSERT INTO [dbo].[Pup] VALUES ('1', '1', 'Daisy', 'Pembroke Welsh Corgi', '2', '1', '0')
+INSERT INTO [dbo].[Pup] VALUES ('1', '1', 'Daisy', 'Pembroke Welsh Corgi', '2', '2021-09-28')
 GO
 ----INSERT BASE HOUSE MEMBER
 --INSERT INTO [dbo].[houseMember] VALUES ('1','1')
 --GO
 --INSERT BASE ACTIVITY
-INSERT INTO [dbo].[Activity] VALUES ('1', '1', '1', '1', '2022-11-11 8:23:44', 'Ate all her food')
+INSERT INTO [dbo].[Activity] VALUES ('1', '1', '1', '1', '2022-11-11T08:23:44', 'Ate all her food')
 GO
 --INSERT BASE ACTIVITY TYPES
 INSERT INTO [dbo].[ActivityType] VALUES ('Breakfast')
