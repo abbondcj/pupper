@@ -68,7 +68,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
           primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p><b>Address 1: </b>{primaryHouse.address1 || 'None'}</p><p><b>Address 2: </b>{primaryHouse.address2 || 'None'}</p><p><b>City/State: </b>{primaryHouse.city !== null ? primaryHouse.city : 'None'} {primaryHouse.state !== null ? `, ` + primaryHouse.state : ', None'}</p><p><b>Zip: </b>{primaryHouse.zip || 'None'}</p></div> : <p>No houses</p>
         }
         {
-          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { console.log(e.target.value); setHousetoAddPup(e.target.value); setShowAddPupModal(true); setHouseToView(parseInt(e.target.value)); }}>Add Pup</button> : ''
+          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { setHousetoAddPup(e.target.value); setShowAddPupModal(true); setHouseToView(parseInt(e.target.value)); }}>Add Pup</button> : ''
         }
         {
           primaryHouse != null
