@@ -31,12 +31,14 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
       if (houseSelected !== 0) {
         showHomeDetail(true);
       }
+      if (houseToAddPup !== null) {
+        houseToAddPup(null);
+      }
     }
   };
 
   const cancelAddPup = () => {
     setPupName(null);
-    setPupHouse(null);
     setPupBreed(null);
     setPupGender(null);
     setPupBirthday(null);
@@ -57,7 +59,7 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
         .then((data) => {
           setHouseList(data);
         });
-    }, [houseSelected]
+    }, [houseSelected, show]
   );  
 
   if (show) {

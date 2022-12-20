@@ -71,7 +71,7 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
           }
         </div>
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} showHomeDetail={null} houseSelected={0} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} showHomeDetail={null} houseSelected={0} houseToAddPup={null} />
         <EditPupModal user={authenticatedUser} show={showEditPupModal} setShowModal={setShowEditPupModal} pupSelected={editPupId} setPupSelected={setEditPupId} houses={houseList} />
       </div>
     </div>
