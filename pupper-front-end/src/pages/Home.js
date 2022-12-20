@@ -18,6 +18,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
   const [houseToAddPup, setHousetoAddPup] = useState(null);
   const [houseToEdit, setHouseToEdit] = useState(null);
   const [houseToView, setHouseToView] = useState(null);
+  const [deleteTrigger, setDeleteTrigger] = useState(false);
   const history = useHistory();
 
   useEffect(
@@ -56,7 +57,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
             }
           }
         );
-    }, [showEditHouseModal, showAddHouseModal, showAddPupModal, houseToAddPup],
+    }, [showEditHouseModal, showAddHouseModal, showAddPupModal, houseToAddPup, houseToEdit, houseToView, deleteTrigger],
   );
   
   return (
@@ -85,7 +86,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
         <button onClick={() => { setShowAddHouseModal(true); }}>Add Home</button>
         <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} houseSelected={houseToAddPup} houseToAddPup={setHousetoAddPup} showHomeDetail={setShowViewDetailModal} />
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
-        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} setHomeToEdit={setHouseToEdit} houseId={houseToEdit} setShowDetail={setShowViewDetailModal} />
+        <EditHomeModal user={authenticatedUser} show={showEditHouseModal} setShowModal={setShowEditHouseModal} setHomeToEdit={setHouseToEdit} houseId={houseToEdit} setShowDetail={setShowViewDetailModal} triggerDelete={setDeleteTrigger} />
         <HomeDetailModal user={authenticatedUser} show={showViewDetailModal} setShowModal={setShowViewDetailModal} houseId={houseToView} setHomeToEdit={setHouseToEdit} showEditModal={setShowEditHouseModal} houseToAddPup={setHousetoAddPup} showAddPup={setShowAddPupModal} />
       </div>
     </div>

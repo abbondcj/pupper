@@ -5,7 +5,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHomeToEdit }) {
+function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHomeToEdit, triggerDelete }) {
   const [homeName, setHomeName] = useState(null);
   const [housePupList, setHousePupList] = useState(null);
   const [address1, setAddress1] = useState(null);
@@ -29,6 +29,7 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
     }
     if (newHome.name == null || newHome.houseOwnerId == null) {
       window.alert("Please enter a house name")
+      setShowModal(true);
     } else {
       HouseApi.EditHouse(newHome, houseId, user.Aa);
       setEditsMade(false);
@@ -40,6 +41,7 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
 
   const cancelEditHome = () => {
     setHomeName(null);
+    setHomeToEdit(null);
     setAddress1(null);
     setAddress2(null);
     setCity(null);
@@ -69,6 +71,7 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
       } else {
         HouseApi.DeleteHouse(id, user.Aa)
         setHomeToEdit(null);
+        triggerDelete(true)
       }
     }
   }
