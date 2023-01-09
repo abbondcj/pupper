@@ -4,7 +4,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, showEditModal, houseToAddPup, showAddPup }) {
+function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, showEditModal, houseToAddPup, showAddPup, setViewHouseId }) {
   const [homeName, setHomeName] = useState();
   const [address1, setAddress1] = useState(null);
   const [address2, setAddress2] = useState(null);
@@ -19,6 +19,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
     setCity(null);
     setZip(null);
     setShowModal(false);
+    setViewHouseId(null);
   }
 
   useEffect(
@@ -38,7 +39,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
             setPupList(data);
           })
       }
-    }, [show, showAddPup, houseId, houseToAddPup]
+    }, [show, showAddPup]
   );
 
   if (show) {

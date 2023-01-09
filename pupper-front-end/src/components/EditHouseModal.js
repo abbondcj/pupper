@@ -5,7 +5,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHomeToEdit, triggerDelete }) {
+function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHomeToEdit, triggerDelete, triggerEdit, homeToView }) {
   const [homeName, setHomeName] = useState(null);
   const [housePupList, setHousePupList] = useState(null);
   const [address1, setAddress1] = useState(null);
@@ -29,12 +29,12 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
     }
     if (newHome.name == null || newHome.houseOwnerId == null) {
       window.alert("Please enter a house name")
-      setShowModal(true);
     } else {
       HouseApi.EditHouse(newHome, houseId, user.Aa);
       setEditsMade(false);
-      setShowModal(false);
       setHomeToEdit(null);
+      setShowModal(false);
+      triggerEdit(true);
       setShowDetail(true);
     }
   };
@@ -68,16 +68,20 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
         });
         HouseApi.DeleteHouse(id, user.Aa);
         setHomeToEdit(null);
+        triggerDelete(true);
+        homeToView(null);
       } else {
         HouseApi.DeleteHouse(id, user.Aa)
         setHomeToEdit(null);
-        triggerDelete(true)
+        triggerDelete(true);
+        homeToView(null);
       }
     }
   }
 
   useEffect(
     () => {
+      triggerEdit(false);
       if (houseId !== null) {
         HouseApi.GetHouseById(houseId, user.Aa)
         .then((data) => {
@@ -93,7 +97,7 @@ function EditHomeModal({ show, user, setShowModal, houseId, setShowDetail, setHo
             setHousePupList(data);
           })
       }
-    }, [show, houseId]
+    }, [show]
   );
 
   if (show) {

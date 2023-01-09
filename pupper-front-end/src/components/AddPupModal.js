@@ -4,7 +4,7 @@ import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, houseToAddPup }) {
+function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, houseToAddPup, triggerAddPup }) {
   const [houseList, setHouseList] = useState(null);
   const [pupName, setPupName] = useState(null);
   const [pupHouse, setPupHouse] = useState(null);
@@ -25,7 +25,6 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
     }
     if (newPup.name == null || newPup.name == '' || newPup.ownerId == null || newPup.breed == null || newPup.breed == '' || newPup.houseId == 0 ) {
       window.alert("House, Name, and Breed must have values");
-      setShowModal(true)
     } else {
       PupsApi.AddPup(newPup, user.Aa)
       if (houseSelected !== 0) {
@@ -34,6 +33,12 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
       if (houseToAddPup !== null) {
         houseToAddPup(null);
       }
+      setPupName(null);
+      setPupBreed(null);
+      setPupGender(null);
+      setPupBirthday(null);
+      setShowModal(false);
+      triggerAddPup ? triggerAddPup(true) : <></>
     }
   };
 
@@ -59,7 +64,7 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
         .then((data) => {
           setHouseList(data);
         });
-    }, [houseSelected, show]
+    }, [show]
   );  
 
   if (show) {
@@ -93,7 +98,7 @@ function AddPupModal({ show, user, setShowModal, houseSelected, showHomeDetail, 
             <label htmlFor="pupBirthday">Birthday:</label>
             <input type="date" name="pupBirthday" placeholder="Birthday" onChange={(e) => { setPupBirthday(e.target.value); }} /><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { setShowModal(false); addPup();  }}>Add Pup</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { addPup();  }}>Add Pup</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddPup}>Cancel</button>
         </Modal.Body>
       </Modal>

@@ -4,7 +4,7 @@ import ActivityApi from '../api/ActivityApi';
 import PupsApi from '../api/PupsApi';
 
 /* eslint-disable */
-function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, houses }) {
+function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, houses, triggerEditPup, triggerDeletePup }) {
   const [pupName, setPupName] = useState(null);
   const [pupHouseId, setPupHouseId] = useState(null);
   const [pupBreed, setPupBreed] = useState(null);
@@ -29,6 +29,8 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
       PupsApi.EditPup(editedPup, pupSelected, user.Aa)
       setEditsMade(false);
       setPupSelected(null);
+      triggerEditPup(true);
+      setShowModal(false);
     }
   };
 
@@ -57,6 +59,8 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
       PupsApi.DeletePup(id, user.Aa);
       setEditsMade(false);
       setPupSelected(null);
+      setShowModal(false);
+      triggerDeletePup(true);
     }
   }
 
@@ -133,7 +137,7 @@ function EditPupModal({ show, user, setShowModal, pupSelected, setPupSelected, h
           {
             editsMade
               ? <></>
-              : <button type="submit" value={pupSelected} onClick={(e) => { deletePup(e.target.value); setShowModal(false); }}>Delete</button>
+              : <button type="submit" value={pupSelected} onClick={(e) => { deletePup(e.target.value); }}>Delete</button>
           }
           <button type="submit" className="btn__btn-primary" onClick={cancelEditPup}>Cancel</button>
         </Modal.Body>
