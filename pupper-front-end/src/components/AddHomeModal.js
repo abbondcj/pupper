@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import HouseApi from '../api/HouseApi';
 
 /* eslint-disable */
-function AddHomeModal({ show, user, setShowModal }) {
+function AddHomeModal({ show, user, setShowModal, houseAdded }) {
   const [homeName, setHomeName] = useState(null);
   const [address1, setAddress1] = useState(null);
   const [address2, setAddress2] = useState(null);
@@ -24,12 +24,12 @@ function AddHomeModal({ show, user, setShowModal }) {
       state: state,
       zip: zip
     }
-    if (newHome.name == null || newHome.houseOwnerId == null) {
-      window.alert("Please enter a house name")
-      setShowModal(true);
+    if (newHome.name == null || newHome.houseOwnerId == null || newHome.name == '') {
+      window.alert("House name must contain value");
     } else {
       HouseApi.AddHouse(newHome, token);
       setShowModal(false);
+      houseAdded ? houseAdded(true) : <></>
     }
   };
 
@@ -41,6 +41,17 @@ function AddHomeModal({ show, user, setShowModal }) {
     setZip(null);
     setShowModal(false);
   }
+
+  useEffect(
+    () => {
+      setHomeName(null);
+      setAddress1(null);
+      setAddress2(null);
+      setCity(null);
+      setState(null);
+      setZip(null);
+    }, [show]
+  )
 
   if (show) {
     return (
@@ -69,7 +80,7 @@ function AddHomeModal({ show, user, setShowModal }) {
             <label htmlFor="zip">Zip:</label>
             <input name="zip" placeholder="Zip" onChange={(e) => { setZip(e.target.value); }} /><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { addHouse(); setShowModal(false); }}>Add House</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { addHouse(); }}>Add House</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddNewHome}>Cancel</button>
         </Modal.Body>
       </Modal>

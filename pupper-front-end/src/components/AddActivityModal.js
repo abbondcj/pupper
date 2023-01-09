@@ -28,9 +28,16 @@ function AddActivityModal({ show, user, setShowModal }) {
     if (newActivity.pupId == null || newActivity.activityTypeId == null || newActivity.dateTime == null || newActivity.userId == null) {
       window.alert("Pup, Activity, and Date/Time must be selected");
     } else {
-      ActivityApi.AddActivity(newActivity, user.Aa)
+      ActivityApi.AddActivity(newActivity, user.Aa);
+      setPupId(null);
       setHouseId(null);
+      setHouseList(null); 
+      setPupList(null);
       setHouseName(null);
+      setActivityTypeId(null);
+      setDateTime(null);
+      setDescription(null);
+      setShowModal(false);
     }
   };
 
@@ -113,7 +120,7 @@ function AddActivityModal({ show, user, setShowModal }) {
             <label htmlFor="description">Description:</label><br></br>
             <textarea className="description" placeholder="Description" onChange={(e) => { setDescription(e.target.value); }}/><br></br>
           </div>
-          <button type="submit" className="btn__btn-primary" onClick={() => { addActivity(); setShowModal(false); }}>Add Activity</button>
+          <button type="submit" className="btn__btn-primary" onClick={() => { addActivity(); }}>Add Activity</button>
           <button type="submit" className="btn__btn-primary" onClick={cancelAddPup}>Cancel</button>
         </Modal.Body>
       </Modal>

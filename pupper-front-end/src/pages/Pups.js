@@ -14,21 +14,15 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
   const [showEditPupModal, setShowEditPupModal] = useState(false);
   const [editPupId, setEditPupId] = useState(null);
   const [filter, setFilter] = useState(0);
+  const [addPupTrigger, setAddPupTrigger] = useState(false);
+  const [editPupTrigger, setEditPupTrigger] = useState(false);
+  const [deletePupTrigger, setDeletePupTrigger] = useState(false);
 
   useEffect(
     () => {
-      setHouseList([]);
-      HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
-        .then((data) => {
-          if (data !== null) {
-            setHouseList(data);
-          }
-        });
-    }, [showAddHouseModal, showEditPupModal, editPupId],
-  );
-
-  useEffect(
-    () => {
+      setAddPupTrigger(false);
+      setEditPupTrigger(false);
+      setDeletePupTrigger(false);
       setPupList([]);
       PupsApi.GetPupsByOwnerId(authenticatedUser.id, authenticatedUser.Aa)
         .then((data) => {
@@ -36,7 +30,14 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
             setPupList(data);
           }
         });
-    }, [showAddPupModal, showEditPupModal, editPupId],
+      setHouseList([]);
+      HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
+        .then((data) => {
+          if (data !== null) {
+            setHouseList(data);
+          }
+        });
+    }, [addPupTrigger, editPupTrigger, deletePupTrigger],
   );
 
   return (
@@ -71,8 +72,8 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
           }
         </div>
         <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
-        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} showHomeDetail={null} houseSelected={0} houseToAddPup={null} />
-        <EditPupModal user={authenticatedUser} show={showEditPupModal} setShowModal={setShowEditPupModal} pupSelected={editPupId} setPupSelected={setEditPupId} houses={houseList} />
+        <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} showHomeDetail={null} houseSelected={0} houseToAddPup={null} triggerAddPup={setAddPupTrigger} />
+        <EditPupModal user={authenticatedUser} show={showEditPupModal} setShowModal={setShowEditPupModal} pupSelected={editPupId} setPupSelected={setEditPupId} houses={houseList} triggerEditPup={setEditPupTrigger} triggerDeletePup={setDeletePupTrigger} />
       </div>
     </div>
   );
