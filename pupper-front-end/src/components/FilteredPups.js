@@ -25,7 +25,7 @@ function FilteredPups({ pupList, filter, auth, setFilteredPups, setPuptoEdit, sh
   return (
     pups.length > 0
     ? pups.map((pup) => {
-      return(<div key={pup.id}><Pup pup={pup} authenticatedToken={auth} setFilter={setFilteredPups} editPup={setPuptoEdit} showEditPup={showPupEdit} /></div>);
+      return(<div className='puppy-container' key={pup.id}><Pup pup={pup} authenticatedToken={auth} setFilter={setFilteredPups} editPup={setPuptoEdit} showEditPup={showPupEdit} /></div>);
     })
     : <p>No Pups</p>
   )

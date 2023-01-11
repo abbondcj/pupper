@@ -1,0 +1,55 @@
+.learn-component {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.learn-component button {
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.articles {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    margin: 2%;
+    padding: 1%
+}
+
+.article_detail {
+    border: 3px solid white;
+    padding: 1%;
+    margin: 1%;
+}
+
+.breed-result-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.breed-result {
+    background-color: lightgray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    margin: 1%;
+    padding: 1%;
+    width: 100%;
+}
+
+.breed-result img {
+    height: 30%;
+    width: 30%;
+}
+
+.breed-info {
+    column-gap: 10px;
+    display: flex;
+    margin-left: 1%;
+}
+
+.search-input {
+    display: flex;
+}

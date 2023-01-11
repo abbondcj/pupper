@@ -1,0 +1,22 @@
+.profile-component {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.profile-component button {
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.profile-component input {
+    margin: 1%;
+    text-align: center;
+}
+
+.profile-container {
+    background-color: lightgray;
+    border-radius: 5px;
+    padding: 1%;
+}

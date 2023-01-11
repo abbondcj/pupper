@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import '../styles/register.css';
 import UserApi from '../api/userApi';
 import Banner from '../components/Banner';
 
@@ -32,14 +33,17 @@ function Register({ newUser }) {
   return (
     <>
       <Banner showLogin={false} register={true} />
-      <div>
-        <h1>Pups</h1>
+      <div className="register-component">
         <h3>Register</h3>
-        <div>
-          <input value={updatedFirstName} onChange={(e) => { setUpdatedFirstName(e.target.value); }} placeholder="First Name" />
-          <input value={updatedLastName} placeholder="Last Name" onChange={(e) => { setUpdatedLastName(e.target.value); }} />
-          <input value={userEmail} disabled placeholder={newUser.email} />
-          <input value={updatedUsername} placeholder="Username" onChange={(e) => { setUpdatedUsername(e.target.value); }} />
+        <div className="register-form">
+          <label htmlFor='fist'>First Name: </label>
+          <input name='first' value={updatedFirstName} onChange={(e) => { setUpdatedFirstName(e.target.value); }} placeholder="First Name" />
+          <label htmlFor='last'>Last Name: </label>
+          <input name='last' value={updatedLastName} placeholder="Last Name" onChange={(e) => { setUpdatedLastName(e.target.value); }} />
+          <label htmlFor='email'>Email: </label>
+          <input name='email' value={userEmail} disabled placeholder={newUser.email} />
+          <label htmlFor='username'>Username: </label>
+          <input name='username' value={updatedUsername} placeholder="Username" onChange={(e) => { setUpdatedUsername(e.target.value); }} />
         </div>
         <div>
           <button onClick={submitUser} type="submit">Submit</button>

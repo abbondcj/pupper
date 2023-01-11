@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import '../styles/activity.css';
 import HouseApi from '../api/HouseApi';
 import ActivityApi from '../api/ActivityApi';
 import PupsApi from '../api/PupsApi';
@@ -50,21 +51,21 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter, showAddActivity })
   );
 
   return (
-    <div>
-      <div>
-        <select value={pupFilter} onChange={(e) => {setPupFilter(parseInt(e.target.value)); }}>
-          <option value={0}>All pups</option>
-          {
-            pupList !== null
-              ? pupList.map((pup) => pupFilter == pup.id ? <option key={pup.id} value={pup.id}>{pup.name}</option> : <option key={pup.id} value={pup.id}>{pup.name}</option>)
-              : ''
-          }
-        </select>
+    <div className="activity-filter-component">
+      <div className="filter-select">
         <select value={houseFilter} onChange={(e) => {setHouseFilter(parseInt(e.target.value)); }}>
           <option value={0}>All Houses</option>
           {
             houseList !== null
               ? houseList.map((house) => houseFilter == house.id ? <option key={house.id} value={house.id}>{house.name}</option> : <option key={house.id} value={house.id}>{house.name}</option>)
+              : ''
+          }
+        </select>
+        <select value={pupFilter} onChange={(e) => {setPupFilter(parseInt(e.target.value)); }}>
+          <option value={0}>All pups</option>
+          {
+            pupList !== null
+              ? pupList.map((pup) => pupFilter == pup.id ? <option key={pup.id} value={pup.id}>{pup.name}</option> : <option key={pup.id} value={pup.id}>{pup.name}</option>)
               : ''
           }
         </select>
@@ -74,7 +75,7 @@ function ActivityFilter({ user, pupPreFilter, housePreFilter, showAddActivity })
            : <></>
         }
       </div>
-      <Table className="table-primary align-middle table-hover">
+      <Table id="activity-table" className="table-primary align-middle table-hover">
         <thead>
           <tr>
             <th itemScope="col">#</th>

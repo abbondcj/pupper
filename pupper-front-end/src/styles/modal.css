@@ -1,0 +1,8 @@
+.modal__delete button {
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.modal__delete label {
+    margin-right: 1%;
+}

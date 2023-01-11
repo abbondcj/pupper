@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
+import '../styles/modal.css';
 import ActivityApi from '../api/ActivityApi';
 
 /* eslint-disable */

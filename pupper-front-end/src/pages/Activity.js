@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/activity.css';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 import ActivityFilter from '../components/ActivityFilter';
@@ -23,11 +24,11 @@ export default function Activity({ authenticatedUser, pupFilterProp, houseFilter
             setPupExists(true);
           }
         });
-    }, [],
+    }, [showAddActivityModal],
   );
 
   return (
-    <div>
+    <div className="activity-component">
       <h1>Activity</h1>
       {
         /* eslint-disable */

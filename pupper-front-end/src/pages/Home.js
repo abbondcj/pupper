@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import '../styles/home.css';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 import AddHomeModal from '../components/AddHomeModal';
@@ -29,6 +30,7 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
       setAddHouseTrigger(false);
       setHouseEditsTrigger(false);
       setHouseDeleteTrigger(false);
+      setAddPupTrigger(false);
       HouseApi.GetHousesByUserId(authenticatedUser.id, authenticatedUser.Aa)
         .then(
           (data) => {
@@ -67,25 +69,25 @@ export default function Home({ authenticatedUser, setHouseFilterState }) {
   );
   
   return (
-    <div>
+    <div className='home-component'>
       <h1>Home</h1>
-      <div>
+      <div className='primary-home'>
         {
-          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p><b>Address 1: </b>{primaryHouse.address1 || 'None'}</p><p><b>Address 2: </b>{primaryHouse.address2 || 'None'}</p><p><b>City/State: </b>{primaryHouse.city !== null ? primaryHouse.city : 'None'}{primaryHouse.state !== null ? `, ` + primaryHouse.state : ', None'}</p><p><b>Zip: </b>{primaryHouse.zip || 'None'}</p></div> : <p>No houses</p>
+          primaryHouse != null ? <div><h1>{primaryHouse.name}</h1><p><b>Address 1: </b>{primaryHouse.address1 || 'None'}</p><p><b>Address 2: </b>{primaryHouse.address2 || 'None'}</p><p><b>City/State: </b>{primaryHouse.city !== null ? primaryHouse.city : 'None'}{primaryHouse.state !== null ? `, ` + primaryHouse.state : ', None'}</p><p><b>Zip: </b>{primaryHouse.zip || 'None'}</p></div> : <p>No homes</p>
         }
         {
-          primaryHouse != null ? primaryPups != null ? <div><h2>Pups</h2>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div> : <button type="submit" value={primaryHouse.id} onClick={(e) => { setHousetoAddPup(e.target.value); setShowAddPupModal(true); setHouseToView(parseInt(e.target.value)); }}>Add Pup</button> : ''
+          primaryHouse != null ? primaryPups != null ? <><h2>Pups</h2><div className='primary-pups'>{primaryPups.map((pup) => <p key={pup.id}>{pup.name}</p>)}</div></> : <button type="submit" value={primaryHouse.id} onClick={(e) => { setHousetoAddPup(e.target.value); setShowAddPupModal(true); setHouseToView(parseInt(e.target.value)); }}>Add Pup</button> : ''
         }
         {
           primaryHouse != null
-          ? <div><button value={primaryHouse.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true); }}>Details</button><button value={primaryHouse.id} onClick={(e) => { setHouseFilterState(parseInt(e.target.value));  history.push("/Activity"); }}>Activity</button></div>
+          ? <div className='primary-buttons'><button value={primaryHouse.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true); }}>Details</button><button value={primaryHouse.id} onClick={(e) => { setHouseFilterState(parseInt(e.target.value));  history.push("/Activity"); }}>Activity</button></div>
           : ''
         }
       </div>
       <div>
         {
           nonPrimaryHouses != null ? 
-          nonPrimaryHouses.map((house) => <div key={house.id}><h1>{house.name}</h1><button value={house.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true);  }}>Details</button><button onClick={async () => { await setHouseFilterState(house.id);  history.push("/Activity"); }}>Activity</button></div>) : ``
+          nonPrimaryHouses.map((house) => <div className='non-primary-home' key={house.id}><h1>{house.name}</h1><button value={house.id} onClick={(e) => { setHouseToView(parseInt(e.target.value)); setShowViewDetailModal(true);  }}>Details</button><button onClick={async () => { await setHouseFilterState(house.id);  history.push("/Activity"); }}>Activity</button></div>) : ``
         }
       </div>
       <div>

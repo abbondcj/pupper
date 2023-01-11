@@ -39,7 +39,7 @@ function HomeDetailModal({ show, user, setShowModal, houseId, setHomeToEdit, sho
             setPupList(data);
           })
       }
-    }, [show, showAddPup]
+    }, [show]
   );
 
   if (show) {

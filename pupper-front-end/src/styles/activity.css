@@ -1,0 +1,28 @@
+.activity-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.activity-component button {
+    border-radius: 5px;
+}
+
+.activity-filter-component {
+    width: 80%;
+}
+
+#activity-table {
+    margin: 1%;
+}
+
+.filter-select {
+    align-items: center !important;
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+}
+.filter-select select {
+    margin: 1%;
+    width: 20%;
+}

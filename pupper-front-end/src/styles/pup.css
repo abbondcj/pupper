@@ -1,0 +1,16 @@
+.pup {
+    background-color: lightgray;
+    border-radius: 5px;
+    margin: 1%;
+    padding: 5%;
+    width: 300px;
+}
+
+.pup h3 {
+    text-align: center;
+}
+
+.pup-buttons {
+    display: flex;
+    flex-direction: column;
+}

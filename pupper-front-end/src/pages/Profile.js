@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/profile.css';
 import HouseApi from '../api/HouseApi';
 import UserApi from '../api/userApi';
 import AddHomeModal from '../components/AddHomeModal';
@@ -43,20 +44,20 @@ function Profile({ authenticatedUser }) {
 
   return (
     /* eslint-disable */
-    <>
+    <div className="profile-component">
       <div>
         <h1>My Profile</h1>
       </div>
-      <div>
+      <div className="profile-container">
         <label htmlFor="firstName">First Name:</label>
         <input className="firstName" onChange={(e) => { setFirstName(e.target.value); setProfileEdited(true); }} value={userFirstName} placeholder="First Name" /><br></br>
         <label htmlFor="lastName">Last Name:</label>
         <input className="lastName" onChange={(e) => { setLastName(e.target.value); setProfileEdited(true); }} value={userLastName} placeholder="Last Name" /><br></br>
         <label htmlFor="username">Username:</label>
         <input className="username" onChange={(e) => { setUsername(e.target.value); setProfileEdited(true); }} value={userUsername} placeholder="Username" /><br></br>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Email:</label><br></br>
         <input className="email" disabled value={userEmail} /><br></br>
-        <label htmlFor="primaryHouse">Primary House:</label>
+        <label htmlFor="primaryHouse">Primary House:</label><br></br>
           {
             userPrimaryHouse !== null && houseList !== null
               ? <>
@@ -84,7 +85,7 @@ function Profile({ authenticatedUser }) {
           }
         <AddHomeModal user={authenticatedUser} show={showAddHomeModal} setShowModal={setShowAddHomeModal} />
       </div>
-    </>
+    </div>
   );
 }
 

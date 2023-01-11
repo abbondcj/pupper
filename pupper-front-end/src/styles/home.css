@@ -1,0 +1,50 @@
+.home-component {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.primary-home {
+    align-items: center;
+    background-color: lightgray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    padding: 1%;
+    width: 50%;
+}
+
+.primary-home h1 {
+    text-align: center;
+}
+
+.primary-pups {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+
+.home-component button {
+    margin: 2%;
+    border-radius: 5px;
+}
+
+.primary-buttons {
+    display: flex;
+}
+
+.non-primary-home {
+    background-color: lightgray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 5%;
+    padding: 1%;
+    width: 100%;
+    min-width: 200px;
+}
+
+.non-primary-home h1 {
+    text-align: center;
+}

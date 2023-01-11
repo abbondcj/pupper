@@ -1,0 +1,25 @@
+.pups-component {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.pup-filter-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.pups-component button {
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.pups-component select {
+    margin: 1%;
+}
+
+.pup-container {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,21 @@
+.register-component {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-component button {
+    border-radius: 5px;
+    margin-top: 5%;
+}
+
+.register-form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.register-form input {
+    text-align: center;
+}

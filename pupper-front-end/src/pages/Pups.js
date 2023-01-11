@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/pups.css';
 import HouseApi from '../api/HouseApi';
 import PupsApi from '../api/PupsApi';
 import AddHomeModal from '../components/AddHomeModal';
@@ -17,9 +18,11 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
   const [addPupTrigger, setAddPupTrigger] = useState(false);
   const [editPupTrigger, setEditPupTrigger] = useState(false);
   const [deletePupTrigger, setDeletePupTrigger] = useState(false);
+  const [addHouseTrigger, setAddHouseTrigger] = useState(false);
 
   useEffect(
     () => {
+      setAddHouseTrigger(false);
       setAddPupTrigger(false);
       setEditPupTrigger(false);
       setDeletePupTrigger(false);
@@ -37,13 +40,13 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
             setHouseList(data);
           }
         });
-    }, [addPupTrigger, editPupTrigger, deletePupTrigger],
+    }, [addPupTrigger, editPupTrigger, deletePupTrigger, addHouseTrigger],
   );
 
   return (
-    <div>
+    <div className="pups-component">
       <h1>Pups</h1>
-      <div>
+      <div className="pup-filter-container">
         {/* eslint-disable */}
         <select onChange={(e) => { setFilter(parseInt(e.target.value)); }}>
           {
@@ -64,14 +67,14 @@ export default function Pups({ authenticatedUser, setPupFilterState }) {
               : <button onClick={() => { setShowAddPupModal(true); }} type="submit">Add Pup</button>
           }
         </div>
-        <div>
+        <div className="pup-container">
           {
             pupList.length > 0
               ? <FilteredPups pupList={pupList} filter={filter} auth={authenticatedUser.Aa} setFilteredPups={setPupFilterState} setPuptoEdit={setEditPupId} showPupEdit={setShowEditPupModal} />
               : <p>No pups</p>
           }
         </div>
-        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} />
+        <AddHomeModal user={authenticatedUser} show={showAddHouseModal} setShowModal={setShowAddHouseModal} houseAdded={setAddHouseTrigger} />
         <AddPupModal user={authenticatedUser} show={showAddPupModal} setShowModal={setShowAddPupModal} showHomeDetail={null} houseSelected={0} houseToAddPup={null} triggerAddPup={setAddPupTrigger} />
         <EditPupModal user={authenticatedUser} show={showEditPupModal} setShowModal={setShowEditPupModal} pupSelected={editPupId} setPupSelected={setEditPupId} houses={houseList} triggerEditPup={setEditPupTrigger} triggerDeletePup={setDeletePupTrigger} />
       </div>

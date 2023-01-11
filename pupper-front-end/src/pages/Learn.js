@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/learn.css';
 import LearnApi from '../api/LearnApi';
 
 export default function Learn({ authenticatedUser }) {
@@ -20,10 +21,10 @@ export default function Learn({ authenticatedUser }) {
   };
 
   return (
-    <div>
+    <div className="learn-component">
       <h1>Learn</h1>
       <h3>Hi {authenticatedUser.firstName} here are some helpful pup resources!</h3>
-      <div>
+      <div className="search-input">
         <input value={dogSearchInput || ''} type="text" onChange={(e) => { setDogSearchInput(e.target.value); }} placeholder="Search by breed" />
         {
           dogSearchInput !== null
@@ -33,22 +34,28 @@ export default function Learn({ authenticatedUser }) {
       </div>
       { showError ? <p>No results</p> : <></> }
       { dogSearchResult !== null ? <button type="submit" onClick={() => { setDogSearchResult(null); setDogSearchInput(null); }}>Clear search</button> : <></> }
-      <div>
+      <div className="breed-result-container">
         {
           /* eslint-disable */
           dogSearchResult !== null
             ? dogSearchResult.map((dog) => 
-              <div key={dog.id}>
+              <div className="breed-result" key={dog.id}>
                 <img src={dog.image_link} alt={dog.name} />
-                <p><b>Breed: </b>{dog.name}</p>
-                <p><b>Avg Life Expectancy: </b>{dog.min_life_expectancy} - {dog.max_life_expectancy}yrs</p>
-                <p><b>Avg Weight: </b>{dog.min_weight_female} - {dog.max_weight_male}lbs</p>
-                <p><b>Energy: </b>{dog.energy}/5</p>
-                <p><b>playfulness: </b>{dog.playfulness}/5</p>
-                <p><b>Protectiveness: </b>{dog.protectiveness}/5</p>
-                <p><b>Trainability: </b>{dog.trainability}/5</p>
-                <p><b>Good with other dogs: </b>{dog.good_with_other_dogs}/5</p>
-                <p><b>Good with children: </b>{dog.good_with_children}/5</p>
+                <div className="breed-info">
+                  <div>
+                  <p><b>Breed: </b>{dog.name}</p>
+                  <p><b>Avg Life Expectancy: </b>{dog.min_life_expectancy} - {dog.max_life_expectancy}yrs</p>
+                  <p><b>Avg Weight: </b>{dog.min_weight_female} - {dog.max_weight_male}lbs</p>
+                  <p><b>Energy: </b>{dog.energy}/5</p>
+                  </div>
+                  <div>
+                  <p><b>playfulness: </b>{dog.playfulness}/5</p>
+                  <p><b>Protectiveness: </b>{dog.protectiveness}/5</p>
+                  <p><b>Trainability: </b>{dog.trainability}/5</p>
+                  <p><b>Good with other dogs: </b>{dog.good_with_other_dogs}/5</p>
+                  <p><b>Good with children: </b>{dog.good_with_children}/5</p>
+                  </div>
+                </div>
               </div>)
             : <></>
         }
@@ -62,9 +69,6 @@ export default function Learn({ authenticatedUser }) {
             Potty training a puppy can be challenging, but with patience, persistence and consistency, you and your pup can be successful. 
             Find out the best way to potty train a puppy from Purina’s pet experts.
           </p>
-          <a className="read_more" href="https://www.purina.com/articles/puppy/training/how-to-potty-train-a-puppy" target="_blank">
-            Read more
-          </a>
         </div>
         <div className="article_detail">
           <a className="article_title" href="https://www.purina.com/articles/introducing-new-puppy" target="_blank">
@@ -74,10 +78,7 @@ export default function Learn({ authenticatedUser }) {
             Getting a new puppy is exciting, but it’s important to prepare before bringing him home. 
             Making sure your home is safe and knowing how to introduce him to other pets will go a long way in keeping everyone happy and comfortable. 
           </p>
-          <a className="read_more" href="https://www.purina.com/articles/introducing-new-puppy" target="_blank">
-            Read more
-          </a>
-       </div>
+        </div>
        <div className="article_detail">
           <a className="article_title" href="https://www.purina.com/articles/puppy/health/puppy-energy-levels-by-age" target="_blank">
             Puppy Energy Levels by Age
@@ -86,9 +87,6 @@ export default function Learn({ authenticatedUser }) {
             As puppies grow and change, their activity and energy levels change. 
             Purina's team of pet care experts prepare you for what to expect at various stages of their life.
           </p>
-          <a className="read_more" href="https://www.purina.com/articles/puppy/health/puppy-energy-levels-by-age" target="_blank">
-            Read more
-          </a>
         </div>
       </div>
     </div>
